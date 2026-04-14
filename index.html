@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sri Barathi Vidyalaya School</title>
+  <link rel="icon" type="image/png" href="aset/logo.png">
+  <link rel="stylesheet" href="string.css">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+   <marquee behavior="scroll" direction="left">
+    <p>📢 Admissions Open for 2026–2027 | 🎉 Annual Day on May 15 | 📘 New Magazine Released</p>
+  </marquee>
+</div>
+  <!-- HEADER -->
+  <header id="mainHeader">
+    <div class="header-inner">
+      <img src="aset/logo.png" class="logo" alt="Logo Sri Barathi Vidyalaya School">
+      <!-- <div class="header-text">
+        <span class="school-name">SRI BARATHI VIDYALAYA SCHOOL</span>
+        <span class="school-subtitle">Quality Education for a Bright Future</span>
+      </div> -->
+    </div>
+    <div class="burger" id="burgerMenu">☰</div>
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+
+      <div class="nav-dropdown">
+        <a href="profile.html" class="nav-drop-link">
+          About Us <i class="fas fa-chevron-down"></i>
+        </a>
+      
+        <div class="nav-dropdown-content">
+          <a href="Foundation.html">Foundation</a>
+          <a href="Vision.html">Vision & Mission</a>
+        </div>
+      </div>
+
+      <a href="gallery.html">Gallery</a>
+
+      <div class="nav-dropdown">
+        <a href="#" class="nav-drop-link">
+          Events <i class="fas fa-chevron-down"></i>
+        </a>
+      
+        <div class="nav-dropdown-content">
+          <a href="Event.html">Recent Events</a>
+          
+        </div>
+      </div>
+      <a href="magazine.html">Magazine</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="login-btn">Login</a>
+    </nav>
+    
+  </header>
+<div id="overlay"></div>
+<div id="sidebar">
+
+  <div class="sidebar-header">
+    <img src="aset/logo.png" class="sidebar-logo" />
+    <span class="close-btn" id="closeSidebar">✖</span>
+  </div>
+
+  <a href="index.html">🏠 Home</a>
+
+  <div class="sidebar-dropdown">
+
+  <div class="sidebar-drop-link">
+    <a href="profile.html">ℹ️ About Us</a>
+    <i class="fas fa-chevron-down" onclick="toggleDropdown(this)"></i>
+  </div>
+
+  <div class="sidebar-dropdown-content">
+    <a href="Foundation.html">Foundation</a>
+    <a href="Vision.html">Vision & Mission</a>
+  </div>
+
+</div>
+
+  <a href="gallery.html">🖼️ Gallery</a>
+
+  <div class="sidebar-dropdown">
+
+  <div class="sidebar-drop-link">
+    <a href="#">ℹ️ Events</a>
+    <i class="fas fa-chevron-down" onclick="toggleDropdown(this)"></i>
+  </div>
+
+  <div class="sidebar-dropdown-content">
+    <a href="Event.html">Recent Events</a>
+    
+  </div></div>
+
+  <a href="magazine.html">📘 Magazine</a>
+  <a href="contact.html">📞 Contact</a>
+  <a href="login.html" class="login-btn">Login</a>
+
+</div>
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="carousel-container">
+      <div class="carousel-slides" id="carouselSlides">
+        <div class="carousel-slide active" style="background-image: url('aset/fotber1.jpeg');">
+          <div class="carousel-overlay"></div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('aset/fotber2.jpeg');">
+          <div class="carousel-overlay"></div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('aset/fotber3.jpeg');">
+          <div class="carousel-overlay"></div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('aset/fotber4.jpeg');">
+          <div class="carousel-overlay"></div>
+        </div>
+      </div>
+
+      <div class="carousel-controls">
+        <button class="carousel-btn carousel-prev" id="prevBtn" onclick="prevSlide()">❮</button>
+        <button class="carousel-btn carousel-next" id="nextBtn" onclick="nextSlide()">❯</button>
+      </div>
+
+      <div class="carousel-indicators" id="carouselIndicators"></div>
+    </div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">Welcome to Sri Barathi Vidyalaya School</h1>
+      <p class="hero-subtitle">Building Knowledge, Character, and Future Leaders</p>
+      <div class="hero-buttons">
+        <a class="hero-btn btn-primary" onclick="openEnquiryModal()">Enquiry</a>
+        <a href="gallery.html" class="hero-btn btn-secondary">View Gallery</a>
+      </div>
+    </div>
+  </section>
+
+ <!-- ABOUT -->
+
+  <div class="profil-container">
+  
+    <section class="modern-about-section" data-aos="fade-up">
+  
+      <div class="modern-about-image" data-aos="fade-right">
+        <div class="carousel">
+  
+          <img src="aset/fotber1.jpeg" class="active">
+          <img src="aset/fotber2.jpeg">
+          <img src="aset/fotber3.jpeg">
+  
+          <button class="prev">&#10094;</button>
+          <button class="next">&#10095;</button>
+  
+        </div>
+      </div>
+  
+      <div class="modern-about-content" data-aos="fade-left">
+        <h2 data-aos="zoom-in">About</h2>
+  
+        <p  data-aos="fade-up" data-aos-delay="100">
+          SBV School, raised on the lofty ideals of the Founder Trustee Mr.C.Krishnan & Mrs.K.Booma krishnan, is widely
+          acknowledged as one of the leading institutions among the schools in Mannargudi located in the heart of the
+          city.
+        </p>
+  
+        <p  data-aos="fade-up" data-aos-delay="200">
+          <strong> Our Teaching Philosophy :</strong><br>
+          At Sri Barathi Vidyalaya, our teachers are more than just educators—they are mentors,
+          facilitators, and lifelong learners committed to nurturing the potential of every student.
+        </p>
+  
+        <p  data-aos="fade-up" data-aos-delay="300">
+  
+          <strong> Beyond Classroom:</strong><br>
+          It is essential to develop our young minds’ thinking ability, innovativeness & the ability to function properly
+          in society,
+          hence we offer several co-curricular activities and extracurricular activities such as Silambam, Karate,
+          Archery, Chess
+        </p>
+        <p  data-aos="fade-up" data-aos-delay="400">
+          <strong>Excellent Transportation:</strong><br>
+          Our school provides top-notch transportation facilities for students residing in and around our town.
+          Whether you're in the heart of the city or nestled in the outskirts, we've got you covered!
+        </p>
+        <a href="profile.html" class="read-btn" data-aos="zoom-in" data-aos-delay="500">Read More →</a>
+      </div>
+  
+    </section>
+  </div>
+
+
+<!-- FOUNDATION -->
+<!-- <section class="features-section">
+  <div class="container">
+    <h2 class="section-title">Foundation & History</h2>
+
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <span class="feature-icon">📜</span>
+        <h3>Establishment</h3>
+        <p>
+          Sri Barathi Vidyalaya Trust was established in Mannargudi with a vision to serve society through education.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">👨‍👩‍👧‍👦</span>
+        <h3>Leadership</h3>
+        <p>
+          Trustees include Sri C. Krishnan, K. Raghavan, and Srimathi Booma Krishnan (Correspondent).
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🏫</span>
+        <h3>School Growth</h3>
+        <p>
+          Started in 1997 as a primary school, later expanded to high school with both English and Tamil medium.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section> -->
+
+<!-- VISION MISSION -->
+<section class="ekstrakurikuler">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Vision & Mission</h2>
+
+    <div class="ekstra-grid">
+
+      <div class="ekstra-card" data-aos="fade-right">
+        <div class="ekstra-icon">👁️</div>
+        <h3>Vision</h3>
+        <p>
+          To nurture curiosity, creativity, and critical thinking while promoting lifelong learning and inclusivity.
+        </p>
+      </div>
+
+      <div class="ekstra-card" data-aos="fade-left">
+        <div class="ekstra-icon">🎯</div>
+        <h3>Mission</h3>
+        <p>
+          To empower every learner through high-quality, inclusive education and prepare them to become responsible global citizens.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="gallery-scroll-section">
+
+  <div class="gallery-header" >
+    <h2 class="gallery-title" data-aos="fade-right">Our Gallery</h2>
+    <a href="gallery.html" class="view-more-btn" data-aos="fade-left">View More →</a>
+  </div>
+
+  <div class="carousel-wrapper" data-aos="fade-up">
+    <div class="carousel-track" id="carouselTrack">
+
+      <div class="card"><img src="aset/fotber1.jpeg"></div>
+      <div class="card"><img src="aset/fotber2.jpeg"></div>
+      <div class="card"><img src="aset/fotber3.jpeg"></div>
+      <div class="card"><img src="aset/fotber4.jpeg"></div>
+      <div class="card"><img src="aset/logo.png"></div>
+
+    </div>
+  </div>
+
+</section>
+
+<section class="latest-events">
+  <div class="events-container">
+
+    <!-- Left Side (Highlights) -->
+    <div class="highlights" data-aos="fade-right">
+      <h2>Why Choose Us</h2>
+
+      <div class="highlight-item">✔ Experienced Faculty</div>
+      <div class="highlight-item">✔ Smart Classrooms</div>
+      <div class="highlight-item">✔ Holistic Development</div>
+      <div class="highlight-item">✔ Safe & Friendly Environment</div>
+      <div class="highlight-item">✔ Extra-Curricular Activities</div>
+    </div>
+
+    <!-- Right Side (Events) -->
+    <div class="events-content" data-aos="fade-left">
+      <h2>Latest Events</h2>
+
+      <div class="events-scroll">
+  <ul class="events-list" id="eventsList"></ul>
+</div>
+    </div>
+
+  </div>
+</section>
+
+ <!-- VALUES  -->
+<!-- <section class="unggulan">
+  <h2>Our Values</h2>
+
+  <div class="vision-content">
+
+    <div class="vision-item">
+      <h3>🎓 Skill Development</h3>
+      <p>Improving student skills and refining their social behavior.</p>
+    </div>
+
+    <div class="vision-item">
+      <h3>📚 Knowledge & Creativity</h3>
+      <p>Encouraging general knowledge, drawing, and creative thinking.</p>
+    </div>
+
+    <div class="vision-item">
+      <h3>✍️ Discipline</h3>
+      <p>Special focus on handwriting, discipline, and structured learning.</p>
+    </div>
+
+    <div class="vision-item">
+      <h3>🏃 Holistic Education</h3>
+      <p>Including Physical Education, Computer Science, and co-curricular activities.</p>
+    </div>
+
+    <div class="vision-item">
+      <h3>👨‍🏫 Expert Teaching</h3>
+      <p>Guided by trained and experienced teachers for better outcomes.</p>
+    </div>
+
+  </div>
+</section> 
+
+
+<!-- ENROLLMENT (kept but refined) -->
+<section class="spmb enrollment-section" data-aos="fade-up">
+  <h2>Enroll Your Child Today</h2>
+  <p class="enrollment-subtitle">
+    Join Sri Barathi Vidyalaya School and give your child a bright future
+  </p>
+
+  <div class="spmb-content">
+
+    <div class="spmb-item">
+      <h3>📝 New Admission</h3>
+      <p>Simple and transparent admission process for new students.</p>
+    </div>
+
+    <div class="spmb-item">
+      <h3>🔄 Transfer Students</h3>
+      <p>We welcome students transferring from other schools.</p>
+    </div>
+
+    <div class="spmb-item">
+      <h3>📞 Contact Support</h3>
+      <p>Reach out anytime for guidance and admission details.</p>
+    </div>
+
+  </div>
+
+  <div class="enrollment-buttons">
+    <a href="https://forms.gle/vLAP9Jy4Qxn4ZgrA9" target="_blank" class="cta cta-primary">
+      📋 Fill Admission Form
+    </a>
+  </div>
+</section>
+<div id="imageModal" class="image-modal">
+  <span class="close-modal">&times;</span>
+  <img id="modalImg" class="modal-content">
+</div>
+<div id="enquiryModal" class="modal">
+  <div class="modal-content split">
+
+    <span class="close-btn-modal" onclick="closeEnquiryModal()">✖</span>
+
+    <!-- LEFT SIDE -->
+    <div class="modal-left">
+  <div class="flip-card">
+
+    <div class="flip-inner">
+
+      <!-- FRONT -->
+      <div class="flip-front">
+        <h2>Join Our School</h2>
+        <p>We provide quality education and values.</p>
+
+        <ul>
+          <li>✔ Experienced Teachers</li>
+          <li>✔ Smart Classrooms</li>
+          <li>✔ Safe Campus</li>
+        </ul>
+      </div>
+
+      <!-- BACK -->
+      <div class="flip-back">
+        <h2>Why Choose Us?</h2>
+        <p>
+          We focus on overall student development, modern teaching methods,
+          and strong academic excellence.
+        </p>
+
+        <p>📞 Contact us today for admissions!</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+    <!-- RIGHT SIDE -->
+    <div class="modal-right">
+      <h2>Enquiry Form</h2>
+
+      <form>
+        <input type="text" placeholder="Student Name" required>
+        <input type="text" placeholder="Parent Name" required>
+        <input type="email" placeholder="Email ID" required>
+        <input type="tel" placeholder="Phone Number" required>
+
+        <textarea placeholder="Why do you want to join this school?" required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="footer">
+  <div class="footer-content">
+
+    <!-- About -->
+    <div class="footer-section">
+      <h4>Sri Barathi Vidyalaya School</h4>
+<p>SBV School, raised on the lofty ideals of the Founder Trustee Mr.C.Krishnan & Mrs.K.Booma krishnan, is widely 
+        acknowledged as one of the leading institutions among the schools in Mannargudi located in the heart of the city.</p>
+        
+      <div class="social-icons">
+        <a href="https://www.facebook.com/sbvmannargudi"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/sribarathividyalaya"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@sribarathividyalayaschoolm1642"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html"> Home</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="gallery.html"> Gallery</a></li>
+        <li><a href="magazine.html">Magazine</a></li>
+        <li><a href="contact.html"> Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-section">
+  <h4>Contact</h4>
+
+  <p>
+    <i class="fas fa-location-dot"></i>
+    <a href="https://maps.google.com/?q=43, West, Othai St, Mannargudi-614001" target="_blank">
+      43, West, Othai St, Mannargudi-614001
+    </a>
+  </p>
+
+  <p>
+    <i class="fas fa-phone"></i>
+    <a href="tel:+919840927298">+91 9840927298</a> |
+    <a href="tel:+918678927298">8678927298</a>
+  </p>
+
+  <p>
+    <i class="fas fa-envelope"></i>
+    <a href="mailto:info@sribarathividyalaya.com">
+      info@sribarathividyalaya.com | admissions@sribarathividyalaya.com
+    </a> 
+   
+  </p>
+</div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2024 - 2026 Sri Barathi Vidyalaya School | All Rights Reserved</p>
+  </div>
+</footer>
+
+  <!-- MODAL: DETAIL STAF -->
+  <div class="modal" id="stafModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeStaf()">×</span>
+      <img id="modalFoto" alt="Foto Staf">
+      <h3 id="modalNama"></h3>
+      <p id="modalJabatan"></p>
+      <ul>
+        <li><b>NIP:</b> <span id="modalNip"></span></li>
+        <li><b>NUPTK:</b> <span id="modalNuptk"></span></li>
+        <li><b>Email:</b> <span id="modalEmail"></span></li>
+        <li><b>Kontak:</b> <span id="modalKontak"></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="gtk.js"></script>
+  <script src="script.js"></script> 
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script> 
+  <script>
+const track = document.getElementById("carouselTrack");
+
+// Duplicate carousel items
+track.innerHTML += track.innerHTML;
+
+// AOS Init
+AOS.init({
+  duration: 1000,
+  once: true
+});
+
+// Modal Elements
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImg");
+const closeModal = document.querySelector(".close-modal");
+
+// Add click event to all carousel images
+document.querySelectorAll("#carouselTrack img").forEach(img => {
+  img.style.cursor = "pointer";
+
+  img.addEventListener("click", () => {
+    modal.style.display = "flex";
+    modalImg.src = img.src;
+  });
+});
+
+// Close Modal Button
+closeModal.onclick = () => {
+  modal.style.display = "none";
+};
+
+// Close When Clicking Outside Image
+modal.onclick = (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+};
+
+const events = [
+  { date: "May 15", title: "Annual Day" },
+  { date: "March 10", title: "Sports Day" },
+  { date: "September 5", title: "Teachers Day" },
+  { date: "February 20", title: "Science Exhibition" }
+];
+
+const list = document.getElementById("eventsList");
+
+events.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+events.forEach(event => {
+  const li = document.createElement("li");
+
+  li.innerHTML = `<span>${event.date} :</span> ${event.title}`;
+
+  li.style.cursor = "pointer";
+  li.addEventListener("click", () => {
+    window.location.href = "Event.html";
+  });
+
+  list.appendChild(li);
+});
+
+</script>
+</body>
+</html>
+
+
+
+
+
