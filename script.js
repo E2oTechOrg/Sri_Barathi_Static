@@ -52,6 +52,39 @@ document.addEventListener("DOMContentLoaded", () => {
   
 });
 
+fetch("header.html")
+  .then((response) => response.text())
+  .then((data) => {
+    document.getElementById("header-container").innerHTML = data;
+
+    // Once navbar is loaded, initialize active link setup
+    setActiveNavLinkByUrl();
+    setupScrollSpy();
+  })
+  .catch((error) => console.error("Error loading navbar:", error));
+
+  fetch("announce.html")
+  .then((response) => response.text())
+  .then((data) => {
+    document.getElementById("announce-container").innerHTML = data;
+
+    // Once navbar is loaded, initialize active link setup
+    setActiveNavLinkByUrl();
+    setupScrollSpy();
+  })
+  .catch((error) => console.error("Error loading navbar:", error));
+
+  fetch("footer.html")
+  .then((response) => response.text())
+  .then((data) => {
+    document.getElementById("footer-container").innerHTML = data;
+
+    // Once navbar is loaded, initialize active link setup
+    setActiveNavLinkByUrl();
+    setupScrollSpy();
+  })
+  .catch((error) => console.error("Error loading navbar:", error));
+
 // function toggleSidebarDropdown(){
 //   const dropdown = document.getElementById("sidebarDropdown");
 

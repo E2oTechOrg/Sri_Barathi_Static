@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ANNOUNCEMENT BAR
-
   const announcementBar = document.getElementById("announcementBar");
 
   if (announcementBar) {
