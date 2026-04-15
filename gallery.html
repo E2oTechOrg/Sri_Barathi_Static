@@ -139,51 +139,10 @@ footer{
 
 <body>
 <!-- ANNOUNCEMENT BAR -->
-<!-- ANNOUNCEMENT BAR -->
 <div id="announce-container"></div>
 
 <!-- HEADER -->
 <div id="header-container"></div>
-
-<div id="overlay"></div>
-<div id="sidebar">
-
-  <div class="sidebar-header">
-    <img src="aset/logo.png" class="sidebar-logo" />
-    <span class="close-btn" id="closeSidebar">✖</span>
-  </div>
-
-  <a href="index.html">🏠 Home</a>
-  <div class="sidebar-dropdown">
-    <a href="profile.html" class="sidebar-drop-link" onclick="toggleSidebarDropdown()">
-      ℹ️ About Us <i class="fas fa-chevron-down"></i>
-    </a>
-  
-    <div class="sidebar-dropdown-content" id="sidebarDropdown">
-      <a href="Foundation.html">Foundation</a>
-      <a href="Vision.html">Vision & Mission</a>
-    </div>
-  </div>
-
-  <a href="gallery.html">🖼️ Gallery</a>
-
-<div class="sidebar-dropdown">
-
-  <div class="sidebar-drop-link">
-    <a href="#">ℹ️ Events</a>
-    <i class="fas fa-chevron-down" onclick="toggleDropdown(this)"></i>
-  </div>
-
-  <div class="sidebar-dropdown-content">
-    <a href="Event.html">Recent Events</a>
-    
-  </div></div>
-
-  <a href="magazine.html">📘 Magazine</a>
-  <a href="contact.html">📞 Contact</a>
-  <a href="login.html" class="login-btn">Login</a>
-
-</div>
 
 <div class="gallery-container" id="gallery">
 
@@ -206,32 +165,77 @@ const galleryImages = [
   {url: "aset/secondary.jpg", title: ""},
   {url: "aset/ida.jpg", title: ""},
   {url: "aset/primary-1.jpg", title: ""},
-   {url: "aset/gal2.jpg", title: ""},
+  {url: "aset/gal2.jpg", title: ""},
+  {url: "aset/ida.jpg", title: ""},
+  {url: "aset/primary-1.jpg", title: ""},
+  {url: "aset/gal2.jpg", title: ""},
+  // add more images here...
 ];
 
 const gallery = document.getElementById("gallery");
 const modal = document.getElementById("imageModal");
 const modalImg = document.getElementById("modalImg");
 
-galleryImages.forEach(img => {
-  const div = document.createElement("div");
-  div.className = "gallery-item";
+let currentIndex = 0;
+const batchSize = 10;
 
-  div.innerHTML = `
-    <img src="${img.url}" alt="" loading="lazy">
-    <span>${img.title}</span>
-  `;
+// create Load More button
+// create Load More button
+const loadMoreBtn = document.createElement("button");
+loadMoreBtn.innerText = "Load More...";
+loadMoreBtn.style.cssText = `
+  display:block;
+  margin:20px auto;
+  padding:10px 20px;
+  border:none;
+  background:#0b3c5d;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+`;
 
-  const image = div.querySelector("img");
+// ✅ insert BEFORE footer
+const footer = document.getElementById("footer-container");
+footer.parentNode.insertBefore(loadMoreBtn, footer);
 
-  image.addEventListener("click", () => {
-    modal.style.display = "flex";
-    modalImg.src = img.url;
+// function to load images
+function loadImages() {
+  const nextBatch = galleryImages.slice(currentIndex, currentIndex + batchSize);
+
+  nextBatch.forEach(img => {
+    const div = document.createElement("div");
+    div.className = "gallery-item";
+
+    div.innerHTML = `
+      <img src="${img.url}" alt="" loading="lazy">
+      <span>${img.title}</span>
+    `;
+
+    const image = div.querySelector("img");
+
+    image.addEventListener("click", () => {
+      modal.style.display = "flex";
+      modalImg.src = img.url;
+    });
+
+    gallery.appendChild(div);
   });
 
-  gallery.appendChild(div);
-});
+  currentIndex += batchSize;
 
+  // hide button if all images loaded
+  if (currentIndex >= galleryImages.length) {
+    loadMoreBtn.style.display = "none";
+  }
+}
+
+// initial load (first 10)
+loadImages();
+
+// button click load next 10
+loadMoreBtn.addEventListener("click", loadImages);
+
+// modal close
 document.querySelector(".close-modal").onclick = () => {
   modal.style.display = "none";
 };

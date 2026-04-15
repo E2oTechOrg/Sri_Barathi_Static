@@ -54,56 +54,12 @@
 }
 </style>
 <body>
-    <!-- ANNOUNCEMENT BAR -->
 <!-- ANNOUNCEMENT BAR -->
 <div id="announce-container"></div>
 
 <!-- HEADER -->
 <div id="header-container"></div>
 
-<div id="overlay"></div>
-<div id="sidebar">
-
-  <div class="sidebar-header">
-    <img src="aset/logo.png" class="sidebar-logo" />
-    <span class="close-btn" id="closeSidebar">✖</span>
-  </div>
-
-  <a href="index.html">🏠 Home</a>
-
-  <div class="sidebar-dropdown">
-
-  <div class="sidebar-drop-link">
-    <a href="profile.html">ℹ️ About Us</a>
-    <i class="fas fa-chevron-down" onclick="toggleDropdown(this)"></i>
-  </div>
-
-  <div class="sidebar-dropdown-content">
-    <a href="Foundation.html">Foundation</a>
-    <a href="Vision.html">Vision & Mission</a>
-  </div>
-
-</div>
-
-  <a href="gallery.html">🖼️ Gallery</a>
-
-  <div class="sidebar-dropdown">
-
-  <div class="sidebar-drop-link">
-    <a href="#">ℹ️ About Us</a>
-    <i class="fas fa-chevron-down" onclick="toggleDropdown(this)"></i>
-  </div>
-
-  <div class="sidebar-dropdown-content">
-    <a href="Event.html">Recent Events</a>
-    
-  </div></div>
-
-  <a href="magazine.html">📘 Magazine</a>
-  <a href="contact.html">📞 Contact</a>
-  <a href="login.html" class="login-btn">Login</a>
-
-</div>
 <!-- Event -->
 <section class="recent-events">
   <h2>Recent Events</h2>
@@ -115,30 +71,32 @@
 
 <script>
 const events = [
+
   {
-    title: "Annual Day Celebration 2026",
-    desc: "Celebrating talent, culture, and achievements of students.",
-    date: "May 15, 2026",
-    link: "annual-day.html"
+    title: "Independence Day Celebration",
+    desc: "Students celebrated Independence Day with patriotic performances, flag hoisting, and cultural events.",
+    date: "August 15, 2026",
+    link: "independence.html"
   },
   {
-    title: "Sports Day 2026",
-    desc: "Annual sports competition and prize distribution ceremony.",
-    date: "March 10, 2026",
-    link: "sports-day.html"
+    title: "Pongal Celebration",
+    desc: "Traditional Pongal festival celebrated with cultural activities, decorations, and festive spirit.",
+    date: "January 14, 2026",
+    link: "pongal.html"
   },
   {
-  title: "Teachers Day Celebration",
-  desc: "Students honored teachers with performances.",
-  date: "September 5, 2026",
-  link: "teachers-day.html"
-},
+    title: "Teachers Day Celebration",
+    desc: "Students honored teachers with performances, speeches, and heartfelt appreciation activities.",
+    date: "September 5, 2026",
+    link: "teachersday.html"
+  },
   {
-    title: "Science Exhibition",
-    desc: "Innovative student science projects and presentations.",
-    date: "February 20, 2026",
-    link: "science-expo.html"
+    title: "Krishna Jeyanthi Celebration",
+    desc: "Krishna Jeyanthi celebrated with traditional dress-up, devotional songs, and cultural performances.",
+    date: "August 16, 2026",
+    link: "krishna.html"
   }
+
 ];
 
 const eventList = document.getElementById("eventList");

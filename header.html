@@ -1,3 +1,10 @@
+  <!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+   <marquee behavior="scroll" direction="left">
+    <p>📢 Admissions Open for 2026–2027 | 📘 New Magazine Released</p>
+  </marquee>
+</div>
+  <!-- Header -->
   <header id="mainHeader">
     <div class="header-inner">
       <img src="aset/logo.png" class="logo" alt="Logo Sri Barathi Vidyalaya School">
@@ -44,8 +51,8 @@
       
         <div class="nav-dropdown-content">
           <a href="Ourstudents.html">Our Students</a>
-          <a href="Effectivecuriculam.html">Our Educators</a>
-          <a href="Assessment.html">Our Parents</a>
+          <a href="Oureducators.html">Our Educators</a>
+          <a href="Ourparents.html">Our Parents</a>
         </div>
       </div>
 
@@ -61,8 +68,7 @@
           
         </div>
       </div>
-
- <div class="nav-dropdown">
+      <div class="nav-dropdown">
         <a href="profile.html" class="nav-drop-link">
           Admission <i class="fas fa-chevron-down"></i>
         </a>
@@ -83,3 +89,118 @@
     </nav>
     
   </header>
+<div id="sidebar">
+
+  <div class="sidebar-header">
+    <img src="aset/logo.png" class="sidebar-logo" />
+    <span class="close-btn" id="closeSidebar">✖</span>
+  </div>
+
+  <a href="index.html">
+    <i class="fas fa-home"></i> Home
+  </a>
+
+  <!-- ABOUT US -->
+  <div class="sidebar-dropdown">
+    <div class="sidebar-drop-link">
+      <a href="profile.html">
+        <i class="fas fa-info-circle"></i> About Us
+      </a>
+      <i class="fas fa-chevron-down arrow" onclick="toggleDropdown(this)"></i>
+    </div>
+
+    <div class="sidebar-dropdown-content">
+      <a href="Foundation.html"><i class="fas fa-building"></i> Foundation</a>
+      <a href="Vision.html"><i class="fas fa-bullseye"></i> Vision & Mission</a>
+    </div>
+  </div>
+
+  <!-- WE PROVIDE -->
+  <div class="sidebar-dropdown">
+    <div class="sidebar-drop-link">
+      <a href="#">
+        <i class="fas fa-graduation-cap"></i> We Provide
+      </a>
+      <i class="fas fa-chevron-down arrow" onclick="toggleDropdown(this)"></i>
+    </div>
+
+    <div class="sidebar-dropdown-content">
+      <a href="Ourprogram.html"><i class="fas fa-book-open"></i> Our Programs</a>
+      <a href="Effectivecuriculam.html"><i class="fas fa-chalkboard-teacher"></i> Effective Curriculum</a>
+      <a href="Assessment.html"><i class="fas fa-file-alt"></i> Assessment</a>
+      <a href="Facilities.html"><i class="fas fa-school"></i> Facilities</a>
+      <a href="Labs.html"><i class="fas fa-flask"></i> Labs & Clubs</a>
+    </div>
+  </div>
+
+  <!-- OUR CAMPUS -->
+  <div class="sidebar-dropdown">
+    <div class="sidebar-drop-link">
+      <a href="#">
+        <i class="fas fa-university"></i> Our Campus
+      </a>
+      <i class="fas fa-chevron-down arrow" onclick="toggleDropdown(this)"></i>
+    </div>
+
+    <div class="sidebar-dropdown-content">
+      <a href="Ourstudents.html"><i class="fas fa-user-graduate"></i> Our Students</a>
+      <a href="Oureducators.html"><i class="fas fa-chalkboard"></i> Our Educators</a>
+      <a href="Ourparents.html"><i class="fas fa-users"></i> Our Parents</a>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <a href="gallery.html">
+    <i class="fas fa-image"></i> Gallery
+  </a>
+
+  <!-- EVENTS -->
+  <div class="sidebar-dropdown">
+    <div class="sidebar-drop-link">
+      <a href="#">
+        <i class="fas fa-calendar-alt"></i> Events
+      </a>
+      <i class="fas fa-chevron-down arrow" onclick="toggleDropdown(this)"></i>
+    </div>
+
+    <div class="sidebar-dropdown-content">
+      <a href="Event.html"><i class="fas fa-calendar-check"></i> Recent Events</a>
+    </div>
+  </div>
+
+  <!-- ADMISSION -->
+  <div class="sidebar-dropdown">
+    <div class="sidebar-drop-link">
+      <a href="#">
+        <i class="fas fa-user-plus"></i> Admission
+      </a>
+      <i class="fas fa-chevron-down arrow" onclick="toggleDropdown(this)"></i>
+    </div>
+
+    <div class="sidebar-dropdown-content">
+      <a href="Whoarewe.html"><i class="fas fa-users"></i> Who We Are</a>
+      <a href="Whyus.html"><i class="fas fa-star"></i> Why Us</a>
+      <a href="Howarewedifferent.html"><i class="fas fa-lightbulb"></i> How Are We Different</a>
+      <a href="Admissioncriteria.html"><i class="fas fa-check-circle"></i> Admission Criteria</a>
+      <a href="Admissionprocess.html"><i class="fas fa-tasks"></i> Admission Process</a>
+    </div>
+  </div>
+
+  <!-- MAGAZINE -->
+  <a href="magazine.html">
+    <i class="fas fa-book"></i> Magazine
+  </a>
+
+  <!-- CONTACT -->
+  <a href="contact.html">
+    <i class="fas fa-phone-alt"></i> Contact
+  </a>
+
+  <!-- LOGIN -->
+  <a href="login.html" class="login-btn">
+    <i class="fas fa-sign-in-alt"></i> Login
+  </a>
+
+</div>
+
+<div id="overlay"></div>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sri Barathi Vidyalaya School</title>
+
+  <link rel="icon" type="image/png" href="aset/logo.png">
+  <link rel="stylesheet" href="string.css">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+  <style>
+    .page-header {
+  background: #e9e4dc;
+  padding: 50px 0;
+  margin-top: 60px;
+  border-top: 6px solid #0d47a1;
+}
+
+.highlight-list li {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #444;
+}
+
+.highlight-list i {
+  color: #0d47a1;
+}
+
+.zigzag-section {
+  padding: 80px 0;
+}
+
+.zigzag-img {
+  border-radius: 20px;
+  max-width: 100%;
+}
+
+.card-section {
+  padding: 80px 0;
+}
+
+.custom-card {
+  background: #fff;
+  border-radius: 12px;
+  padding-bottom: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.custom-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.custom-card h6 {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.custom-card p {
+  font-size: 13px;
+}
+.join-form-card{
+  background:#fff;
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  height:100%;
+}
+
+.join-form-card textarea.form-control{
+  min-height:120px;
+  resize:none;
+}
+
+.join-form-card .form-label{
+  font-weight:600;
+  color:#333;
+  margin-bottom:6px;
+}
+
+.join-form-card .form-control{
+  border-radius:10px;
+  padding:12px 14px;
+  border:1px solid #dcdcdc;
+  transition:0.3s;
+   min-height:48px;
+}
+
+.join-form-card .form-control:focus{
+  border-color:#0d47a1;
+  box-shadow:0 0 0 0.15rem rgba(13,71,161,0.15);
+}
+
+.join-form-card .btn{
+  border-radius:10px;
+  font-weight:600;
+  background:#0d47a1;
+  border:none;
+  transition:0.3s;
+}
+
+.join-form-card .btn:hover{
+  background:#08306b;
+}
+.join-community-row{
+  align-items:stretch;
+}
+
+.join-content-box{
+  background:#fff;
+  padding:35px;
+  border-radius:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:100%;
+  height:100%;
+}
+
+.join-form-card{
+  background:#fff;
+  padding:30px;
+  border-radius:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  width:100%;
+  height:100%;
+}
+
+@media(max-width:991px){
+  .join-content-box{
+    margin-bottom:25px;
+  }
+}
+  </style>
+<body>
+<!-- ANNOUNCEMENT BAR -->
+<div id="announce-container"></div>
+
+<!-- HEADER -->
+<div id="header-container"></div>
+
+<div class="page-header text-center">
+  <h2>Our Educators</h2>
+  <p>Home - <span class="text-danger">Our Educators</span></p>
+</div>
+
+<!-- TEACHERS AS TEACHERS -->
+<section class="zigzag-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-right">
+        <h4 class="fw-bold">Teachers as Teachers</h4>
+        <p>
+          OUR EDUCATORS are self evolving, enthusiastic individuals. We provide them with a dynamic platform, encouraging them to imbibe innovative teaching techniques everyday so they in turn help evolve well rounded, compassionate students.
+        </p>
+        <p>
+          Every child differs in how they learn and grow. Knowing this, our teachers adapt to meet the learning needs of students—drawing out their uniqueness and potential.
+        </p>
+      </div>
+      <div class="col-lg-6 text-center" data-aos="fade-left">
+        <img src="aset/teacher.webp" class="img-fluid zigzag-img" alt="Teachers as Teachers">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHERS AS LEARNERS -->
+<section class="zigzag-section bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 text-center" data-aos="fade-right">
+        <img src="aset/learner.avif" class="img-fluid zigzag-img" alt="Teachers as Learners">
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <h4 class="fw-bold">Teachers as Learners</h4>
+        <p>
+          Our teachers are aware of, and appreciate the individual ability and appetite for learning, of every child.
+          While they impart education and life skills to their students they also learn from them at every step.
+        </p>
+        <p>
+          Our teachers bring into play tested innovative methods that have been proven globally, to draw out each child’s hidden potential, yet are strongly guided by traditional Indian wisdom.
+        </p>
+        <p>
+          Our educators care deeply and are committed to combine insights with imagination and compassion to connect with every student.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHERS AS SUPPORT SYSTEM -->
+<section class="zigzag-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-right">
+        <h4 class="fw-bold">Teachers as Support System</h4>
+        <p>
+          A student-centered model accepts that students have different learning styles and absorb information at different levels.
+          They are open and receptive to various styles of learning, whether in groups or individually.
+        </p>
+        <p>
+          Educators at SBV take on the role of a guide or facilitator for students’ learning experiences.
+          They support, encourage, provide feedback, answer questions, ask questions, give suggestions, and pose challenges.
+        </p>
+        <p>
+          Homework support videos will be sent to students to complete their homeworks.
+        </p>
+      </div>
+      <div class="col-lg-6 text-center" data-aos="fade-left">
+        <img src="aset/download.jpeg" class="img-fluid zigzag-img" alt="Support System">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARENTS AS TEACHERS -->
+<section class="zigzag-section bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 text-center" data-aos="fade-right">
+        <img src="aset/Parent-Teacher.jpg" class="img-fluid zigzag-img" alt="Parents as Teachers">
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <h4 class="fw-bold">Parents as Teachers</h4>
+        <h6 class="fw-bold">Inspired Minds, Dedicated Individuals</h6>
+        <p>
+          About 10% of our parents become teachers. These talented peoples are identified and hired for their interpersonal skills and connectedness to the school’s philosophy and way of teaching.
+        </p>
+        <p>
+          This is independent of their qualification and experience.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHER TRAININGS -->
+<section class="zigzag-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-right">
+        <h4 class="fw-bold">Teacher Trainings</h4>
+        <p>
+          Since teaching methods are evolving constantly, regular trainings, re-trainings and workshops are held with expert faculty to help teachers to hone their teaching skills and orient them to new teaching methodologies.
+        </p>
+        <p>
+          These efforts bring out hidden qualities that are latent while also providing ample opportunity to learn from and absorb with trends that are at par with global standards of teaching.
+        </p>
+        <p>
+          Workshops are absolutely necessary in the changing socio-economic-political scenario as these have a direct impact on the education sector.
+        </p>
+        <p>
+          Students are changing and so is the psychology of the parents.
+          Teachers must know the best techniques like how efficiently and effectively they can handle classroom, crisis management, resource or material management, lesson planning, curriculum development and use of technology in the classroom amongst others.
+        </p>
+      </div>
+      <div class="col-lg-6 text-center" data-aos="fade-left">
+        <img src="aset/training.jpg" class="img-fluid zigzag-img" alt="Teacher Trainings">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHING PHILOSOPHY -->
+<section class="zigzag-section bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 text-center" data-aos="fade-right">
+        <img src="aset/gal2.jpg" class="img-fluid zigzag-img" alt="Teaching Philosophy">
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <h4 class="fw-bold">Our Teaching Philosophy!</h4>
+        <p>
+          At Sri Barathi Vidyalaya, our teachers are more than just educators—they are mentors, facilitators, and lifelong learners committed to nurturing the potential of every student.
+        </p>
+        <p>
+          Get to know the passionate individuals who make a difference in the lives of our students every day!
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEDICATED TEAM -->
+<section class="zigzag-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-right">
+        <h4 class="fw-bold">Our Dedicated Team of Educators!</h4>
+        <p>
+          Our faculty comprises experienced educators with diverse backgrounds, expertise, and passions.
+        </p>
+        <p>
+          From seasoned veterans to enthusiastic newcomers, each member brings a unique perspective and skill set to the classroom.
+        </p>
+      </div>
+      <div class="col-lg-6 text-center" data-aos="fade-left">
+        <img src="aset/ida.jpg" class="img-fluid zigzag-img" alt="Dedicated Team">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN COMMUNITY -->
+<section class="zigzag-section bg-light">
+  <div class="container">
+    <div class="row align-items-stretch join-community-row">
+
+      <!-- LEFT CONTENT -->
+      <div class="col-lg-6 d-flex" data-aos="fade-right">
+        <div class="join-content-box">
+          <h4 class="fw-bold">Join Our Learning Community!</h4>
+          <p>
+            At Sri Barathi Vidyalaya, we are proud to have a team of dedicated educators who are committed to excellence, innovation, and student success.
+          </p>
+          <p>
+            Together, we work collaboratively to create a vibrant learning community where all students can achieve their dreams and aspirations.
+          </p>
+          <p>
+            We look forward to welcoming you to our school family!
+          </p>
+        </div>
+      </div>
+
+      <!-- RIGHT FORM -->
+      <div class="col-lg-6 d-flex" data-aos="fade-left">
+        <div class="join-form-card w-100">
+          <form>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" placeholder="Enter your name" required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="Enter your email" required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Phone</label>
+                <input type="tel" class="form-control" placeholder="Enter phone number" required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">LinkedIn URL</label>
+                <input type="url" class="form-control" placeholder="LinkedIn profile">
+              </div>
+
+              <div class="col-12 mb-3">
+                <label class="form-label">Message</label>
+                <textarea class="form-control" rows="4" placeholder="Write your message here..."></textarea>
+              </div>
+
+              <div class="col-12 mb-3">
+                <label class="form-label">Resume</label>
+                <input type="file" class="form-control" accept=".pdf,.doc,.docx">
+              </div>
+
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100 py-2">
+                  Submit Application
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div id="footer-container"></div>
+
+<!-- SCRIPTS -->
+<script src="gtk.js"></script>
+<script src="script.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+  AOS.init();
+</script>
+
+</body>
+</html>

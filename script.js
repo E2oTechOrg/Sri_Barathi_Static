@@ -1,17 +1,30 @@
 // ========================================
 // MA1N.HTML - JAVASCRIPT INTERAKSI
 // ========================================
-const header = document.getElementById("mainHeader");
-//sidebar 
-document.addEventListener("DOMContentLoaded", () => {
+function loadComponent(id, file) {
+  fetch(file)
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById(id).innerHTML = data;
+
+      if (id === "header-container") {
+        setTimeout(() => {
+          initHeader();
+          setActiveMenu();
+        }, 0);
+      }
+    });
+}
+
+// ✅ All header + sidebar logic here
+function initHeader() {
   const burger = document.getElementById("burgerMenu");
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
-  const closeBtn = document.getElementById("closeSidebar"); // optional
+  const closeBtn = document.getElementById("closeSidebar");
   const header = document.getElementById("mainHeader");
-  // Safety check
-  if (!burger || !sidebar || !overlay) return;
-    header.style.transform = "translateY(0)";
+
+  if (!burger || !sidebar || !overlay || !header) return;
 
   // Open/Close toggle
   const toggleMenu = () => {
@@ -23,6 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     burger.textContent = isOpen ? "✖" : "☰";
     document.body.classList.toggle("no-scroll", isOpen);
+
+    document.body.classList.toggle("no-scroll", isOpen);
+
+  // 🔥 FORCE REPAINT FIX (THIS FIXES YOUR ISSUE)
+  sidebar.style.transform = "translateZ(0)";
   };
 
   burger.addEventListener("click", toggleMenu);
@@ -40,71 +58,79 @@ document.addEventListener("DOMContentLoaded", () => {
 
   overlay.addEventListener("click", closeMenu);
 
-  // Close when clicking links
   document.querySelectorAll("#sidebar a").forEach(link => {
     link.addEventListener("click", closeMenu);
   });
 
-  // Optional: close button inside sidebar
   if (closeBtn) {
     closeBtn.addEventListener("click", closeMenu);
   }
-  
-});
+}
 
-fetch("header.html")
-  .then((response) => response.text())
-  .then((data) => {
-    document.getElementById("header-container").innerHTML = data;
-
-    // Once navbar is loaded, initialize active link setup
-    setActiveNavLinkByUrl();
-    setupScrollSpy();
-  })
-  .catch((error) => console.error("Error loading navbar:", error));
-
-  fetch("announce.html")
-  .then((response) => response.text())
-  .then((data) => {
-    document.getElementById("announce-container").innerHTML = data;
-
-    // Once navbar is loaded, initialize active link setup
-    setActiveNavLinkByUrl();
-    setupScrollSpy();
-  })
-  .catch((error) => console.error("Error loading navbar:", error));
-
-  fetch("footer.html")
-  .then((response) => response.text())
-  .then((data) => {
-    document.getElementById("footer-container").innerHTML = data;
-
-    // Once navbar is loaded, initialize active link setup
-    setActiveNavLinkByUrl();
-    setupScrollSpy();
-  })
-  .catch((error) => console.error("Error loading navbar:", error));
-
-// function toggleSidebarDropdown(){
-//   const dropdown = document.getElementById("sidebarDropdown");
-
-//   if(dropdown.style.display === "block"){
-//     dropdown.style.display = "none";
-//   } else {
-//     dropdown.style.display = "block";
-//   }
-// }
+// Sidebar dropdown
 function toggleDropdown(icon) {
-  const menu = icon.parentElement.nextElementSibling;
+  const parent = icon.closest(".sidebar-drop-link");
+  const menu = parent.nextElementSibling;
 
+  // Close others
   document.querySelectorAll(".sidebar-dropdown-content").forEach(item => {
     if (item !== menu) {
       item.classList.remove("show");
     }
   });
 
+  document.querySelectorAll(".sidebar-drop-link").forEach(link => {
+    if (link !== parent) {
+      link.classList.remove("active");
+    }
+  });
+
+  // Toggle current
   menu.classList.toggle("show");
+  parent.classList.toggle("active");
 }
+
+function setActiveMenu() {
+  const currentPage = window.location.pathname.split("/").pop();
+
+  // ===== DESKTOP NAV =====
+  document.querySelectorAll("#mainHeader nav a").forEach(link => {
+    const href = link.getAttribute("href");
+
+    if (href === currentPage) {
+      link.classList.add("active");
+
+      // If inside dropdown
+      const dropdown = link.closest(".nav-dropdown");
+      if (dropdown) {
+        const parent = dropdown.querySelector(".nav-drop-link");
+        if (parent) parent.classList.add("active");
+      }
+    }
+  });
+
+  // ===== SIDEBAR =====
+  document.querySelectorAll("#sidebar a").forEach(link => {
+    const href = link.getAttribute("href");
+
+    if (href === currentPage) {
+      link.classList.add("active");
+
+      // If inside sidebar dropdown
+      const dropdown = link.closest(".sidebar-dropdown");
+      if (dropdown) {
+        const content = dropdown.querySelector(".sidebar-dropdown-content");
+        const parent = dropdown.querySelector(".sidebar-drop-link");
+
+        if (content) content.classList.add("show");
+        if (parent) parent.classList.add("active-parent");
+      }
+    }
+  });
+}
+
+loadComponent("header-container", "header.html");
+loadComponent("footer-container", "footer.html");
 
 const images = document.querySelectorAll(".carousel img");
 const next = document.querySelector(".next");
@@ -430,18 +456,18 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('✅ Script initialized - ma1n.html loaded');
 });
 
-document.addEventListener('click', (e) => {
-  if (!header.contains(e.target)) {
-    navMenu.classList.remove('active');
-    document.body.classList.remove('nav-open');
-  }
-});
+// document.addEventListener('click', (e) => {
+//   if (!header.contains(e.target)) {
+//     navMenu.classList.remove('active');
+//     document.body.classList.remove('nav-open');
+//   }
+// });
 
-burgerMenu.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    navMenu.classList.toggle('active');
-  }
-});
+// burgerMenu.addEventListener('keydown', (e) => {
+//   if (e.key === 'Enter') {
+//     navMenu.classList.toggle('active');
+//   }
+// });
 
 
 

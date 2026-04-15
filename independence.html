@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Independence Day - Sri Bharathi Vidyalaya</title>
+
+<!-- TAB LOGO -->
+<link rel="icon" type="image/png" href="aset/logo.png">
+<link rel="stylesheet" href="string.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+
+<style>
+*{box-sizing:border-box;margin:0;font-family:system-ui,sans-serif}
+body{
+  background:#f4f6f8;
+  color:#222;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-top: 150px;
+}
+
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:10;
+  background:#0b3c5d;color:#fff;
+  padding:12px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+
+/* TITLE */
+.title{
+  text-align:center;
+  padding:18px 10px;
+}
+
+
+.gallery-container{
+  column-count: 5; /* number of columns */
+  column-gap: 15px;
+  padding:20px;
+}
+
+.gallery-item{
+  position: relative;
+  margin-bottom:15px;
+  break-inside: avoid; 
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.gallery-item img{
+  width:100%;
+  height:auto;
+  object-fit:contain; 
+  background:#eee;
+  display:block;
+  transition:0.4s;
+}
+
+.gallery-item span{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  padding:8px;
+  color:#fff;
+  font-size:14px;
+ 
+}
+
+.gallery-item:hover img{
+  transform:scale(1.08);
+}
+@media(max-width:900px){
+  .gallery-container{
+    column-count:2;
+  }
+}
+
+@media(max-width:500px){
+  .gallery-container{
+    column-count:1;
+  }
+}
+.image-modal{
+  display:none;
+  position:fixed;
+  z-index:9999;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content{
+  max-width:90%;
+  max-height:90%;
+  border-radius:12px;
+}
+
+.close-modal{
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:40px;
+  color:#fff;
+  cursor:pointer;
+}
+
+.gallery-item img{
+  cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+  background:#0b3c5d;
+  color:#fff;
+  text-align:center;
+  padding:12px;
+  font-size:14px;
+  margin-top:auto;
+}
+
+/* MOBILE */
+@media(max-width:480px){
+  .brand span{display:none}
+}
+</style>
+</head>
+
+<body>
+<!-- ANNOUNCEMENT BAR -->
+<div id="announce-container"></div>
+
+<!-- HEADER -->
+<div id="header-container"></div>
+
+
+<div class="gallery-container" id="gallery">
+
+</div>
+<div id="imageModal" class="image-modal">
+  <span class="close-modal">&times;</span>
+  <img id="modalImg" class="modal-content">
+</div>
+
+<!-- FOOTER -->
+<div id="footer-container"></div>
+ <script src="script.js"></script> 
+<script>
+const galleryImages = [
+  {url: "aset/Independence/ind1.jpg", title: ""},
+  {url: "aset/Independence/ind2.jpg", title: ""},
+  {url: "aset/Independence/ind3.jpg", title: ""},
+  {url: "aset/Independence/ind4.jpg", title: ""},
+  {url: "aset/Independence/ind5.jpg", title: ""},
+  {url: "aset/Independence/ind6.jpg", title: ""},
+  {url: "aset/Independence/ind7.jpg", title: ""},
+  {url: "aset/Independence/ind8.jpg", title: ""},
+  {url: "aset/Independence/ind9.jpg", title: ""},
+  {url: "aset/Independence/ind10.jpg", title: ""},
+  {url: "aset/Independence/ind11.jpg", title: ""},
+  {url: "aset/Independence/ind12.jpg", title: ""},
+  {url: "aset/Independence/ind13.jpg", title: ""},
+  {url: "aset/Independence/ind14.jpg", title: ""},
+  {url: "aset/Independence/ind15.jpg", title: ""},
+  {url: "aset/Independence/ind16.jpg", title: ""},
+  {url: "aset/Independence/ind17.jpg", title: ""},
+  {url: "aset/Independence/ind18.jpg", title: ""},
+  {url: "aset/Independence/ind19.jpg", title: ""},
+  {url: "aset/Independence/ind20.jpg", title: ""},
+  {url: "aset/Independence/ind21.jpg", title: ""},
+  {url: "aset/Independence/ind22.jpg", title: ""},
+  {url: "aset/Independence/ind23.jpg", title: ""},
+  {url: "aset/Independence/ind24.jpg", title: ""},
+  {url: "aset/Independence/ind25.jpg", title: ""},
+  {url: "aset/Independence/ind26.jpg", title: ""},
+  {url: "aset/Independence/ind27.jpg", title: ""},
+  {url: "aset/Independence/ind28.jpg", title: ""},
+  {url: "aset/Independence/ind29.jpg", title: ""},
+  {url: "aset/Independence/ind30.jpg", title: ""},
+  {url: "aset/Independence/ind31.jpg", title: ""},
+  
+  // add more images here...
+];
+
+const gallery = document.getElementById("gallery");
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImg");
+
+let currentIndex = 0;
+const batchSize = 10;
+
+// create Load More button
+// create Load More button
+const loadMoreBtn = document.createElement("button");
+loadMoreBtn.innerText = "Load More...";
+loadMoreBtn.style.cssText = `
+  display:block;
+  margin:20px auto;
+  padding:10px 20px;
+  border:none;
+  background:#0b3c5d;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+`;
+
+// ✅ insert BEFORE footer
+const footer = document.getElementById("footer-container");
+footer.parentNode.insertBefore(loadMoreBtn, footer);
+
+// function to load images
+function loadImages() {
+  const nextBatch = galleryImages.slice(currentIndex, currentIndex + batchSize);
+
+  nextBatch.forEach(img => {
+    const div = document.createElement("div");
+    div.className = "gallery-item";
+
+    div.innerHTML = `
+      <img src="${img.url}" alt="" loading="lazy">
+      <span>${img.title}</span>
+    `;
+
+    const image = div.querySelector("img");
+
+    image.addEventListener("click", () => {
+      modal.style.display = "flex";
+      modalImg.src = img.url;
+    });
+
+    gallery.appendChild(div);
+  });
+
+  currentIndex += batchSize;
+
+  // hide button if all images loaded
+  if (currentIndex >= galleryImages.length) {
+    loadMoreBtn.style.display = "none";
+  }
+}
+
+// initial load (first 10)
+loadImages();
+
+// button click load next 10
+loadMoreBtn.addEventListener("click", loadImages);
+
+// modal close
+document.querySelector(".close-modal").onclick = () => {
+  modal.style.display = "none";
+};
+
+modal.onclick = (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+};
+</script>
+</body>
+</html>
