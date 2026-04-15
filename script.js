@@ -8,14 +8,15 @@ function loadComponent(id, file) {
       document.getElementById(id).innerHTML = data;
 
       if (id === "header-container") {
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           initHeader();
           setActiveMenu();
-        }, 0);
+
+          window.dispatchEvent(new Event("resize"));
+        });
       }
     });
 }
-
 // ✅ All header + sidebar logic here
 function initHeader() {
   const burger = document.getElementById("burgerMenu");
@@ -36,11 +37,6 @@ function initHeader() {
 
     burger.textContent = isOpen ? "✖" : "☰";
     document.body.classList.toggle("no-scroll", isOpen);
-
-    document.body.classList.toggle("no-scroll", isOpen);
-
-  // 🔥 FORCE REPAINT FIX (THIS FIXES YOUR ISSUE)
-  sidebar.style.transform = "translateZ(0)";
   };
 
   burger.addEventListener("click", toggleMenu);
@@ -143,21 +139,22 @@ function showImage(i){
   images[i].classList.add("active");
 }
 
-next.addEventListener("click", () => {
-  index = (index + 1) % images.length;
-  showImage(index);
-});
+if (next && prev && images.length) {
+  next.addEventListener("click", () => {
+    index = (index + 1) % images.length;
+    showImage(index);
+  });
 
-prev.addEventListener("click", () => {
-  index = (index - 1 + images.length) % images.length;
-  showImage(index);
-});
+  prev.addEventListener("click", () => {
+    index = (index - 1 + images.length) % images.length;
+    showImage(index);
+  });
 
-/* Auto slide */
-setInterval(() => {
-  index = (index + 1) % images.length;
-  showImage(index);
-}, 3000);
+  setInterval(() => {
+    index = (index + 1) % images.length;
+    showImage(index);
+  }, 3000);
+}
 
 // modal
 function openEnquiryModal(){
@@ -446,12 +443,10 @@ window.addEventListener('scroll', updateActiveNav);
 document.addEventListener('DOMContentLoaded', updateActiveNav);
 
 // 8. LOAD EVENT UNTUK INISIALISASI
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize carousel
+window.addEventListener('load', function() {
   initCarousel();
-  
-  // Load staf data dari gtk.js
   loadStafData();
+
   
   console.log('✅ Script initialized - ma1n.html loaded');
 });
@@ -468,7 +463,15 @@ document.addEventListener('DOMContentLoaded', function() {
 //     navMenu.classList.toggle('active');
 //   }
 // });
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    window.dispatchEvent(new Event("resize"));
 
+    document.body.style.display = "none";
+    document.body.offsetHeight; // Force Reflow
+    document.body.style.display = "";
+  }, 300);
+});
 
 
 
