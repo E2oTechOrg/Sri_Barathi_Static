@@ -10,9 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-<!-- ANNOUNCEMENT BAR -->
-<div id="announce-container"></div>
-
 <!-- HEADER -->
 <div id="header-container"></div>
 
@@ -20,18 +17,10 @@
   <section class="hero-section">
     <div class="carousel-container">
       <div class="carousel-slides" id="carouselSlides">
-        <div class="carousel-slide active" style="background-image: url('aset/fotber1.jpeg');">
+        
           <div class="carousel-overlay"></div>
-        </div>
-        <div class="carousel-slide" style="background-image: url('aset/fotber2.jpeg');">
-          <div class="carousel-overlay"></div>
-        </div>
-        <div class="carousel-slide" style="background-image: url('aset/fotber3.jpeg');">
-          <div class="carousel-overlay"></div>
-        </div>
-        <div class="carousel-slide" style="background-image: url('aset/fotber4.jpeg');">
-          <div class="carousel-overlay"></div>
-        </div>
+          
+       
       </div>
 
       <div class="carousel-controls">
@@ -233,7 +222,9 @@
       <h2>Latest Events</h2>
 
       <div class="events-scroll">
-  <ul class="events-list" id="eventsList"></ul>
+  <ul class="events-list" id="eventsList">
+    <li>Loading...</li>
+  </ul>
 </div>
     </div>
 
@@ -309,6 +300,7 @@
 </section>
 
 
+<!-- enquiry -->
 <div id="imageModal" class="image-modal">
   <span class="close-modal">&times;</span>
   <img id="modalImg" class="modal-content">
@@ -357,47 +349,116 @@
     <div class="modal-right">
       <h2>Enquiry Form</h2>
 
-      <form>
-        <input type="text" placeholder="Student Name" required>
-        <input type="text" placeholder="Parent Name" required>
-        <input type="text" placeholder="Class" required>
-        <input type="tel" placeholder="Phone Number" required>
+      <form id="enquiryForm">
+  <input type="text" id="studentName" placeholder="Student Name" required>
+  <input type="text" id="parentName" placeholder="Parent Name" required>
+  <input type="text" id="className" placeholder="Class" required>
+  <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
 
-        <textarea placeholder="Why do you want to join this school?" required></textarea>
+  <textarea id="reason" placeholder="Why do you want to join this school?" required></textarea>
 
-        <button type="submit">Submit</button>
-      </form>
+  <button type="submit">Submit</button>
+</form>
     </div>
 
   </div>
 </div>
-
+<div id="toast" class="toast"></div>
 <div id="footer-container"></div>
 
-  <!-- MODAL: DETAIL STAF
-  <div class="modal" id="stafModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeStaf()">×</span>
-      <img id="modalFoto" alt="Foto Staf">
-      <h3 id="modalNama"></h3>
-      <p id="modalJabatan"></p>
-      <ul>
-        <li><b>NIP:</b> <span id="modalNip"></span></li>
-        <li><b>NUPTK:</b> <span id="modalNuptk"></span></li>
-        <li><b>Email:</b> <span id="modalEmail"></span></li>
-        <li><b>Kontak:</b> <span id="modalKontak"></span></li>
-      </ul>
-    </div>
-  </div> -->
-
   <!-- SCRIPTS -->
+  <script src="api.js"></script>
+  <script>
+    //latest events
+const list = document.getElementById("eventsList");
+
+async function loadLatestEvents() {
+  const schoolId = 1;
+
+  const notifications = await getNotifications(schoolId);
+
+  if (!Array.isArray(notifications) || notifications.length === 0) {
+    list.innerHTML = "<li>No updates available</li>";
+    return;
+  }
+
+  const activeData = notifications
+    .filter(item => item.status === 1)
+    .sort((a, b) => new Date(b.created_At) - new Date(a.created_At));
+
+  list.innerHTML = "";
+
+  activeData.slice(0, 5).forEach(item => {
+    const li = document.createElement("li");
+
+     // FORMAT DATE (Day + Month)
+  const dateObj = new Date(item.created_At);
+  const formattedDate = dateObj.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long"  
+  });
+
+    li.innerHTML = `
+    <strong>${item.title}</strong> : ${item.message}<br>
+    <span>${formattedDate}</span>
+  `;
+      li.style.cursor = "pointer";
+      li.addEventListener("click", () => {
+        window.location.href = "Event.html";
+      });
+    
+
+    list.appendChild(li);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadLatestEvents);
+
+// enquiry
+const enquiryForm = document.getElementById("enquiryForm");
+// Toast
+function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+// Submit
+enquiryForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    studentName: document.getElementById("studentName").value,
+    parentName: document.getElementById("parentName").value,
+    class: document.getElementById("className").value,
+    phoneNumber: document.getElementById("phoneNumber").value,
+    reason: document.getElementById("reason").value,
+    schoolId: 1
+  };
+
+  const result = await submitEnquiry(payload);
+
+  if (result.ok) {
+    showToast("Enquiry submitted successfully!", "success");
+    enquiryForm.reset();
+  } else {
+    showToast("Failed to submit enquiry", "error");
+    console.error(result.error || result.data);
+  }
+});
+
+  </script>
   <script src="gtk.js"></script>
   <script src="script.js"></script> 
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script> 
+  
   <script>
 const track = document.getElementById("carouselTrack");
-
-// Duplicate carousel items
 track.innerHTML += track.innerHTML;
 
 // AOS Init
@@ -432,33 +493,8 @@ modal.onclick = (e) => {
     modal.style.display = "none";
   }
 };
-
-const events = [
-  { date: "May 15", title: "Annual Day" },
-  { date: "March 10", title: "Sports Day" },
-  { date: "September 5", title: "Teachers Day" },
-  { date: "February 20", title: "Science Exhibition" },
-  { date: "August 15", title: "Independence Day"}
-];
-
-const list = document.getElementById("eventsList");
-
-events.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-events.forEach(event => {
-  const li = document.createElement("li");
-
-  li.innerHTML = `<span>${event.date} :</span> ${event.title}`;
-
-  li.style.cursor = "pointer";
-  li.addEventListener("click", () => {
-    window.location.href = "Event.html";
-  });
-
-  list.appendChild(li);
-});
-
 </script>
+
 </body>
 </html>
 

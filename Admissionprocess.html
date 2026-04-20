@@ -16,11 +16,8 @@
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-</head>
 
-<body>
-
-    <style>
+      <style>
         .page-header {
   background: #e9e4dc;
   padding: 50px 0;
@@ -61,11 +58,16 @@
   color: #555;
   line-height: 1.6;
 }
+@media(max-width:991px){
+  .page-header{
+    margin-top: 16px;
+  }
+}
     </style>
 
+</head>
 
-<!-- ANNOUNCEMENT BAR -->
-<div id="announce-container"></div>
+<body>
 
 <!-- HEADER -->
 <div id="header-container"></div>
@@ -171,6 +173,7 @@
 <div id="footer-container"></div>
 
 <!-- SCRIPTS -->
+ <script src="api.js"></script>
 <script src="gtk.js"></script>
 <script src="script.js"></script>
 

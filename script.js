@@ -1,6 +1,145 @@
 // ========================================
-// MA1N.HTML - JAVASCRIPT INTERAKSI
+// MA1N.HTML - JAVASCRIPT 
 // ========================================
+
+// 🔔 Announcement Bar
+async function loadAnnouncement() {
+  const schoolId = 1;
+
+  const result = await getAnnouncements(schoolId);
+
+  const bar = document.getElementById("announcementBar");
+  const text = document.getElementById("announcementText");
+
+  if (!bar || !text) return;
+
+  // ✅ filter only active (status = 1)
+  const visibleData = result.data.filter(item => item.status === 1);
+
+  if (visibleData.length === 0) {
+    bar.style.display = "none";
+    return;
+  }
+
+  const message = visibleData
+    .map(item => item.announcement_Banner_Message)
+    .join(" | ");
+
+  text.textContent = "📢 " + message;
+
+  // use first active banner color
+  bar.style.backgroundColor = visibleData[0].announcement_Banner_Colour;
+}
+
+//navbar for events
+async function loadNavbarEvents() {
+  const navbarEvents = document.getElementById("navbarEvents");
+  const sidebarEvents = document.getElementById("sidebarEvents");
+
+  const result = await getEvents();
+
+  if (result.success) {
+
+    if (navbarEvents) navbarEvents.innerHTML = "";
+    if (sidebarEvents) sidebarEvents.innerHTML = "";
+
+    result.data.forEach(event => {
+      const href = `Eventgallery.html?schoolId=1&eventId=${event.event_Id}`;
+
+      // Navbar
+      if (navbarEvents) {
+        const link = document.createElement("a");
+        link.href = href;
+        link.textContent = event.event_Name;
+        navbarEvents.appendChild(link);
+      }
+
+      // Sidebar
+      if (sidebarEvents) {
+        const link = document.createElement("a");
+        link.href = href;
+        link.innerHTML = `<i class="fas fa-calendar-check"></i> ${event.event_Name}`;
+        sidebarEvents.appendChild(link);
+      }
+    });
+
+  } else {
+    if (navbarEvents) navbarEvents.innerHTML = "<a>No events</a>";
+    if (sidebarEvents) sidebarEvents.innerHTML = "<a>No events</a>";
+  }
+}
+// 🎞 Hero Banner
+// async function loadHeroBanners() {
+//   const schoolId = 1;
+//   const data = await getHeroBanners(schoolId); // 👈 from api.js
+
+//   const container = document.getElementById("carouselSlides");
+
+//   if (!container) return;
+
+//   if (data.length === 0) {
+//     container.innerHTML = "<p>No banners available</p>";
+//     return;
+//   }
+
+//   container.innerHTML = data.map((item, index) => `
+//     <div class="carousel-slide ${index === 0 ? "active" : ""}" 
+//          style="background-image: url('${item.hero_Banner_Url}')">
+//       <div class="carousel-overlay"></div>
+//     </div>
+//   `).join("");
+
+//   totalSlides = data.length;
+//   currentSlide = 0;
+//   initCarousel();
+// }
+async function loadHeroBanners() {
+  const schoolId = 1;
+
+  const data = await getHeroBanners(schoolId);
+
+  const container = document.getElementById("carouselSlides");
+
+  if (!container) return;
+
+  if (data.length === 0) {
+    container.innerHTML = "<p>No banners available</p>";
+    return;
+  }
+
+  // ✅ CASE 1: Only ONE image → no carousel
+  if (data.length === 1) {
+    container.innerHTML = `
+      <div class="carousel-slide active"
+           style="background-image: url('${data[0].hero_Banner_Url}')">
+        <div class="carousel-overlay"></div>
+      </div>
+    `;
+    return;
+  }
+
+  // ✅ CASE 2: Multiple images → enable carousel
+  container.innerHTML = data.map((item, index) => `
+    <div class="carousel-slide ${index === 0 ? "active" : ""}" 
+         style="background-image: url('${item.hero_Banner_Url}')">
+      <div class="carousel-overlay"></div>
+    </div>
+  `).join("");
+
+  // ✅ Start carousel only if multiple images
+  totalSlides = data.length;
+  currentSlide = 0;
+  initCarousel();
+}
+
+// ✅ Load on page start
+document.addEventListener("DOMContentLoaded", () => {
+  loadAnnouncement();
+  loadHeroBanners();
+});
+
+
+//header
 function loadComponent(id, file) {
   fetch(file)
     .then(res => res.text())
@@ -11,6 +150,7 @@ function loadComponent(id, file) {
         requestAnimationFrame(() => {
           initHeader();
           setActiveMenu();
+          loadNavbarEvents();
 
           window.dispatchEvent(new Event("resize"));
         });
@@ -87,7 +227,28 @@ function toggleDropdown(icon) {
 }
 
 function setActiveMenu() {
-  const currentPage = window.location.pathname.split("/").pop();
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+  // ===== CLEAR ALL ACTIVE FIRST =====
+  document.querySelectorAll("#mainHeader nav a").forEach(link => {
+    link.classList.remove("active");
+  });
+
+  document.querySelectorAll("#sidebar a").forEach(link => {
+    link.classList.remove("active");
+  });
+
+  document.querySelectorAll(".nav-drop-link").forEach(link => {
+    link.classList.remove("active");
+  });
+
+  document.querySelectorAll(".sidebar-drop-link").forEach(link => {
+    link.classList.remove("active-parent");
+  });
+
+  document.querySelectorAll(".sidebar-dropdown-content").forEach(menu => {
+    menu.classList.remove("show");
+  });
 
   // ===== DESKTOP NAV =====
   document.querySelectorAll("#mainHeader nav a").forEach(link => {
@@ -96,38 +257,41 @@ function setActiveMenu() {
     if (href === currentPage) {
       link.classList.add("active");
 
-      // If inside dropdown
+      // 🔹 If inside dropdown → activate parent ONLY
       const dropdown = link.closest(".nav-dropdown");
       if (dropdown) {
         const parent = dropdown.querySelector(".nav-drop-link");
+
+        
         if (parent) parent.classList.add("active");
       }
     }
   });
 
   // ===== SIDEBAR =====
-  document.querySelectorAll("#sidebar a").forEach(link => {
-    const href = link.getAttribute("href");
+document.querySelectorAll("#sidebar a").forEach(link => {
+  const href = link.getAttribute("href");
 
-    if (href === currentPage) {
-      link.classList.add("active");
+  if (href === currentPage) {
+    link.classList.add("active"); 
 
-      // If inside sidebar dropdown
-      const dropdown = link.closest(".sidebar-dropdown");
-      if (dropdown) {
-        const content = dropdown.querySelector(".sidebar-dropdown-content");
-        const parent = dropdown.querySelector(".sidebar-drop-link");
+    const dropdown = link.closest(".sidebar-dropdown");
+    if (dropdown) {
+      const content = dropdown.querySelector(".sidebar-dropdown-content");
+      const parent = dropdown.querySelector(".sidebar-drop-link");
 
-        if (content) content.classList.add("show");
-        if (parent) parent.classList.add("active-parent");
-      }
+      if (content) content.classList.add("show");       // open dropdown
+      if (parent) parent.classList.add("active-parent"); // highlight parent
     }
-  });
+  }
+});
 }
 
 loadComponent("header-container", "header.html");
 loadComponent("footer-container", "footer.html");
 
+
+//about img
 const images = document.querySelectorAll(".carousel img");
 const next = document.querySelector(".next");
 const prev = document.querySelector(".prev");
@@ -183,14 +347,40 @@ window.onclick = function(e){
 // CAROUSEL IMAGE SLIDER
 // ========================================
 let currentSlide = 0;
-const totalSlides = 4;
+let totalSlides = 0;
 let autoSlideInterval;
 
+let slides = [];
+
 function initCarousel() {
+  slides = document.querySelectorAll('.carousel-slide');
+  totalSlides = slides.length;
+
+  const indicatorContainer = document.getElementById('carouselIndicators');
+  const controls = document.querySelector('.carousel-controls');
+
+  // ❌ If 0 or 1 slide → hide everything
+  if (totalSlides <= 1) {
+    stopAutoSlide();
+
+    if (indicatorContainer) {
+      indicatorContainer.style.display = 'none';
+    }
+
+    if (controls) {
+      controls.style.display = 'none'; 
+    }
+
+    return;
+  }
+
+  // ✅ Show controls when multiple slides
+  if (indicatorContainer) indicatorContainer.style.display = 'flex';
+  if (controls) controls.style.display = 'flex';
+
   updateCarouselIndicators();
   startAutoSlide();
-  
-  // Add event listeners to carousel
+
   const carouselContainer = document.getElementById('carouselSlides');
   if (carouselContainer) {
     carouselContainer.addEventListener('mouseenter', stopAutoSlide);
@@ -213,19 +403,26 @@ function updateCarouselIndicators() {
 
 function showSlide(index) {
   const slides = document.querySelectorAll('.carousel-slide');
+
+  if (slides.length === 0) return; // ✅ avoid error
+
   slides.forEach((slide, i) => {
     slide.classList.toggle('active', i === index);
   });
+
   updateCarouselIndicators();
 }
 
 function nextSlide() {
+  if (totalSlides <= 1) return;
+  // console.log("NEXT CLICKED");
   currentSlide = (currentSlide + 1) % totalSlides;
   showSlide(currentSlide);
   resetAutoSlide();
 }
 
 function prevSlide() {
+  // console.log("PREV CLICKED"); 
   currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
   showSlide(currentSlide);
   resetAutoSlide();
@@ -238,9 +435,12 @@ function goToSlide(index) {
 }
 
 function startAutoSlide() {
+  if (totalSlides <= 1) return;
+
+  stopAutoSlide(); // ✅ important
   autoSlideInterval = setInterval(() => {
     nextSlide();
-  }, 5000); // Ganti slide setiap 5 detik
+  }, 5000);
 }
 
 function stopAutoSlide() {
@@ -439,7 +639,6 @@ function updateActiveNav() {
   });
 }
 
-window.addEventListener('scroll', updateActiveNav);
 document.addEventListener('DOMContentLoaded', updateActiveNav);
 
 // 8. LOAD EVENT UNTUK INISIALISASI

@@ -54,9 +54,6 @@
 }
 </style>
 <body>
-<!-- ANNOUNCEMENT BAR -->
-<div id="announce-container"></div>
-
 <!-- HEADER -->
 <div id="header-container"></div>
 
@@ -68,48 +65,48 @@
 
 <!-- FOOTER -->
 <div id="footer-container"></div>
-
+<script src="api.js"></script>
 <script>
-const events = [
-
-  {
-    title: "Independence Day Celebration",
-    desc: "Students celebrated Independence Day with patriotic performances, flag hoisting, and cultural events.",
-    date: "August 15, 2026",
-    link: "independence.html"
-  },
-  {
-    title: "Pongal Celebration",
-    desc: "Traditional Pongal festival celebrated with cultural activities, decorations, and festive spirit.",
-    date: "January 14, 2026",
-    link: "pongal.html"
-  },
-  {
-    title: "Teachers Day Celebration",
-    desc: "Students honored teachers with performances, speeches, and heartfelt appreciation activities.",
-    date: "September 5, 2026",
-    link: "teachersday.html"
-  },
-  {
-    title: "Krishna Jeyanthi Celebration",
-    desc: "Krishna Jeyanthi celebrated with traditional dress-up, devotional songs, and cultural performances.",
-    date: "August 16, 2026",
-    link: "krishna.html"
-  }
-
-];
-
 const eventList = document.getElementById("eventList");
 
-events.forEach(event => {
-  eventList.innerHTML += `
-    <a href="${event.link}" class="event-card">
-      <h3>${event.title}</h3>
-      <p>${event.desc}</p>
-      <span>${event.date} →</span>
-    </a>
-  `;
-});
+async function loadEvents() {
+  const result = await getEvents(); // 👈 from api.js
+
+  if (result.success) {
+    const events = result.data;
+
+    // Show count
+    document.querySelector(".recent-events h2").innerText =
+      `Recent Events (${events.length})`;
+
+    eventList.innerHTML = "";
+
+    events.forEach(event => {
+     eventList.innerHTML += `
+  <a href="Eventgallery.html?schoolId=1&eventId=${event.event_Id}" class="event-card">
+    <h3>${event.event_Name}</h3>
+    <p>${event.event_Description || "No description available"}</p>
+    <span>${formatDate(event.event_Date)} →</span>
+  </a>
+`;
+    });
+
+  } else {
+    eventList.innerHTML = "<p>No events found</p>";
+  }
+}
+
+// Date format
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+
+loadEvents();
 </script>
 <script src="script.js"></script> 
 </body>

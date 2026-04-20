@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Documentation - Sri Bharathi Vidyalaya</title>
+<title>Teachers day celebration - Sri Bharathi Vidyalaya</title>
 
 <!-- TAB LOGO -->
 <link rel="icon" type="image/png" href="aset/logo.png">
@@ -24,7 +24,8 @@ body{
 
 /* HEADER */
 header{
-  position:sticky;top:0;z-index:10;
+  position:sticky;top:0;
+  z-index:10;
   background:#0b3c5d;color:#fff;
   padding:12px 16px;
   display:flex;
@@ -41,7 +42,7 @@ header{
 
 
 .gallery-container{
-  column-count: 3; /* number of columns */
+  column-count: 5; /* number of columns */
   column-gap: 15px;
   padding:20px;
 }
@@ -109,7 +110,6 @@ header{
   background: transparent;
   padding: 6px;   
 }
-
 .close-modal{
   position:absolute;
   top:20px;
@@ -141,6 +141,7 @@ footer{
 </head>
 
 <body>
+
 <!-- HEADER -->
 <div id="header-container"></div>
 
@@ -154,34 +155,24 @@ footer{
 
 <!-- FOOTER -->
 <div id="footer-container"></div>
-<script src="api.js"></script>
-<script src="script.js"></script> 
-<script>
-const galleryImages = [
-  {url: "aset/fotber1.jpeg", title: ""},
-  {url: "aset/fotber2.jpeg", title: ""},
-  {url: "aset/fotber3.jpeg", title: ""},
-  {url: "aset/fotber4.jpeg", title: ""},
-  {url: "aset/logo.png", title: ""},
-  {url: "aset/secondary.jpg", title: ""},
-  {url: "aset/ida.jpg", title: ""},
-  {url: "aset/primary-1.jpg", title: ""},
-  {url: "aset/gal2.jpg", title: ""},
-  {url: "aset/ida.jpg", title: ""},
-  {url: "aset/primary-1.jpg", title: ""},
-  {url: "aset/gal2.jpg", title: ""},
-  
-];
 
+<script src="api.js"></script>
+<script>
 const gallery = document.getElementById("gallery");
 const modal = document.getElementById("imageModal");
 const modalImg = document.getElementById("modalImg");
 
+// ✅ Get event ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const schoolId = urlParams.get("schoolId");
+const eventId = urlParams.get("eventId");
+
+// Pagination variables
 let currentIndex = 0;
 const batchSize = 10;
+let allImages = [];
 
-// create Load More button
-// create Load More button
+// Load More button
 const loadMoreBtn = document.createElement("button");
 loadMoreBtn.innerText = "Load More...";
 loadMoreBtn.style.cssText = `
@@ -195,28 +186,39 @@ loadMoreBtn.style.cssText = `
   cursor:pointer;
 `;
 
-// ✅ insert BEFORE footer
+// Insert before footer
 const footer = document.getElementById("footer-container");
 footer.parentNode.insertBefore(loadMoreBtn, footer);
 
-// function to load images
+// ✅ Fetch images from API
+async function loadGallery() {
+  const result = await getEventImages(schoolId, eventId);
+
+  if (result.success) {
+    allImages = result.data;
+    loadImages(); // first batch
+  } else {
+    gallery.innerHTML = "<p>No images found</p>";
+  }
+}
+
+// ✅ Load images in batches
 function loadImages() {
-  const nextBatch = galleryImages.slice(currentIndex, currentIndex + batchSize);
+  const nextBatch = allImages.slice(currentIndex, currentIndex + batchSize);
 
   nextBatch.forEach(img => {
     const div = document.createElement("div");
     div.className = "gallery-item";
 
     div.innerHTML = `
-      <img src="${img.url}" alt="" loading="lazy">
-      <span>${img.title}</span>
+      <img src="${img.image_Url}" alt="" loading="lazy">
     `;
 
     const image = div.querySelector("img");
 
     image.addEventListener("click", () => {
       modal.style.display = "flex";
-      modalImg.src = img.url;
+      modalImg.src = img.image_Url;
     });
 
     gallery.appendChild(div);
@@ -224,19 +226,15 @@ function loadImages() {
 
   currentIndex += batchSize;
 
-  // hide button if all images loaded
-  if (currentIndex >= galleryImages.length) {
+  if (currentIndex >= allImages.length) {
     loadMoreBtn.style.display = "none";
   }
 }
 
-// initial load (first 10)
-loadImages();
-
-// button click load next 10
+// Load more click
 loadMoreBtn.addEventListener("click", loadImages);
 
-// modal close
+// Modal close
 document.querySelector(".close-modal").onclick = () => {
   modal.style.display = "none";
 };
@@ -246,6 +244,9 @@ modal.onclick = (e) => {
     modal.style.display = "none";
   }
 };
+
+loadGallery();
 </script>
+<script src="script.js"></script> 
 </body>
 </html>

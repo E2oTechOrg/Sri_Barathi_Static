@@ -125,12 +125,33 @@
   background: white;
 }
 
-    #successMsg {
-      display: none;
-      color: green;
-      text-align: center;
-      margin-top: 10px;
-    }
+    .toast-msg {
+  position: fixed;
+  top: 40px;
+  right: 30px;
+  background: #333;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast-msg.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-msg.success {
+  background: #53b66a;
+}
+
+.toast-msg.error {
+  background: #dc3545;
+}
 
     @media (max-width: 768px) {
       .magazine-layout {
@@ -141,10 +162,6 @@
 </head>
 
 <body>
-<!-- ANNOUNCEMENT BAR -->
-<!-- ANNOUNCEMENT BAR -->
-<div id="announce-container"></div>
-
 <!-- HEADER -->
 <div id="header-container"></div>
 
@@ -234,18 +251,14 @@
         <button type="submit" class="btn" data-aos="zoom-in">🎁 Reserve My Copy</button>
 
       </form>
-
-      <p id="successMsg">✅ Submitted successfully!</p>
-
-      <div class="note">* All fields are required</div>
     </div>
 
   </div>
 </div>
-
+<div id="toast" class="toast-msg"></div>
 <!-- FOOTER -->
 <div id="footer-container"></div>
-
+<script src="api.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
@@ -253,6 +266,17 @@
     once: true,
     duration: 1000
   });
+
+  function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.className = `toast-msg show ${type}`;
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
 
   const form = document.getElementById("magazineForm");
   const successMsg = document.getElementById("successMsg");
@@ -277,13 +301,13 @@
         body: formData
       });
 
-      console.log(Object.fromEntries(formData)); // ✅ FIXED
+      console.log(Object.fromEntries(formData));
 
-      successMsg.style.display = "block";
+      showToast("Magazine request submitted!", "success");
       form.reset();
 
     } catch (error) {
-      alert("Something went wrong!");
+      showToast("Something went wrong!", "error");
       console.log(error);
     }
   });

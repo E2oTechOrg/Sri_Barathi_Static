@@ -30,6 +30,8 @@
   object-fit:cover;
   opacity:0;
   transition:0.5s;
+  top: 0;
+  left: 0;
 }
 
 .carousel img.active{
@@ -105,6 +107,13 @@
   margin-bottom:18px;
   text-align:justify;
 }
+#aboutContent iframe {
+  width: 100%;
+  max-width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
 
 /* Tablet */
 @media(max-width:992px){
@@ -142,16 +151,63 @@
     border-radius:22px;
   }
 }
+
+/* Tablet */
+@media(max-width:992px){
+  .modern-about-section{
+    flex-direction:column;
+    gap:35px;
+  }
+
+  .modern-about-image img{
+    height:auto;
+    max-height:500px;
+  }
+
+  .modern-about-content h2{
+    font-size:3rem;
+  }
+}
+@media (max-width: 768px) {
+  .carousel {
+    height: 250px;
+  }
+
+  .modern-about-image img {
+    height: 250px;
+  }
+
+  .modern-about-content {
+    text-align: center;
+  }
+}
+
+/* Mobile */
+@media(max-width:576px){
+  .profil-container{
+    padding:30px 18px 60px;
+  }
+
+  .modern-about-content h2{
+    font-size:2.3rem;
+  }
+
+  .modern-about-content p{
+    font-size:1rem;
+    line-height:1.9;
+  }
+
+  .modern-about-image img{
+    border-radius:22px;
+  }
+}
 </style>
 </head>
 <body>
- <!-- ANNOUNCEMENT BAR -->
-<div id="announce-container"></div>
-
 <!-- HEADER -->
 <div id="header-container"></div>
 
-<main>
+<!-- <main>
   <div class="profil-container">
 
     <section class="modern-about-section" data-aos="fade-up">
@@ -188,12 +244,28 @@
           opens the doors to every child’s unquenchable ambition to denote and connote the existence of anything.
         </p>
 
-        <!-- <p>
-          We focus on becoming globally minded and educate children for the future.
-          Our personalized learning approach helps students achieve academic excellence
-          while developing the right skill sets to thrive in this ever-changing world.
-        </p> -->
+      </div>
 
+    </section>
+
+  </div>
+</main> -->
+<main>
+  <div class="profil-container">
+
+    <section class="modern-about-section" data-aos="fade-up">
+
+      <!-- LEFT -->
+      <div class="modern-about-image" data-aos="fade-right">
+        <div class="carousel" id="aboutCarousel"></div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="modern-about-content" data-aos="fade-left">
+        <h2 id="aboutTitle">About</h2>
+        <div id="aboutContent">
+          <p>Loading...</p>
+        </div>
       </div>
 
     </section>
@@ -203,7 +275,106 @@
 
 <!-- FOOTER -->
 <div id="footer-container"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<script src="api.js"></script>
 
+<script>
+async function loadAboutUs() {
+  const data = await getAboutUs(1);
+
+  if (!data || data.length === 0) return;
+
+  const about = data[0];
+
+  // ✅ Title
+  document.getElementById("aboutTitle").innerText = about.aboutTitle;
+
+  let content = about.aboutContent || "";
+
+  let tempDiv = document.createElement("div");
+tempDiv.innerHTML = about.aboutContent || "";
+
+// ✅ extract ALL images
+let imgTags = tempDiv.querySelectorAll("img");
+let images = Array.from(imgTags).map(img => img.src);
+
+console.log("Images found:", images);
+
+// ✅ include main image (optional)
+if (about.aboutImageUrl) {
+  images.unshift(about.aboutImageUrl);
+}
+
+  // ✅ STEP 2: Build carousel images
+  const carousel = document.getElementById("aboutCarousel");
+
+  carousel.innerHTML = images.map((img, index) => `
+    <img src="${img}" class="${index === 0 ? "active" : ""}">
+  `).join("");
+
+  // 👉 Optional: show buttons only if multiple images
+  if (images.length > 1) {
+    carousel.innerHTML += `
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    `;
+    initAboutCarousel(); // 👈 call slider
+  }
+
+  // ✅ STEP 3: Remove ALL images from content
+  content = content.replace(/<img[^>]*>/g, "");
+
+  // ✅ STEP 4: Sanitize content
+  let cleanHTML = DOMPurify.sanitize(content, {
+    ADD_TAGS: ["iframe"],
+    ADD_ATTR: [
+      "allow",
+      "allowfullscreen",
+      "frameborder",
+      "referrerpolicy"
+    ]
+  });
+
+  // ✅ Show cleaned content (TEXT + VIDEO only)
+  document.getElementById("aboutContent").innerHTML = cleanHTML;
+}
+
+document.addEventListener("DOMContentLoaded", loadAboutUs);
+
+let aboutIndex = 0;
+let aboutSlides = [];
+
+function initAboutCarousel() {
+  aboutSlides = document.querySelectorAll("#aboutCarousel img");
+
+  const prevBtn = document.querySelector("#aboutCarousel .prev");
+  const nextBtn = document.querySelector("#aboutCarousel .next");
+
+  if (!aboutSlides.length) return;
+
+  prevBtn.addEventListener("click", () => {
+    showAboutSlide(aboutIndex - 1);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    showAboutSlide(aboutIndex + 1);
+  });
+
+  // Optional auto slide
+  setInterval(() => {
+    showAboutSlide(aboutIndex + 1);
+  }, 5000);
+}
+
+function showAboutSlide(index) {
+  aboutSlides[aboutIndex].classList.remove("active");
+
+  aboutIndex = (index + aboutSlides.length) % aboutSlides.length;
+
+  aboutSlides[aboutIndex].classList.add("active");
+}
+
+</script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
   AOS.init({

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sri Bharathi Vidyalaya School</title>
+
+  <link rel="icon" type="image/png" href="aset/logo.png">
+  <link rel="stylesheet" href="string.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+<!-- HEADER -->
+<div id="header-container"></div>
+
+<section class="books-section">
+  <div class="top-bar">
+
+  <h2>Our Books</h2>
+
+  <div class="filters">
+
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search books...">
+    </div>
+
+    <div class="select-box">
+      <select id="classFilter">
+        <option value="">All Classes</option>
+        
+      </select>
+    </div>
+
+    <div class="select-box">
+      <select id="subjectFilter">
+        <option value="">All Subjects</option>
+        
+      </select>
+    </div>
+<button id="sortBtn">
+  Sort <span id="sortIcon">⬍</span>
+</button>
+  </div>
+
+</div>
+  <div class="books-container" id="booksContainer"></div>
+
+  <!-- PDF MODAL -->
+<div id="pdfModal" class="pdf-modal">
+  <span class="close-modal" onclick="closePDF()">&times;</span>
+  <iframe id="pdfFrame"></iframe>
+</div>
+</section>
+
+<!-- FOOTER -->
+<div id="footer-container"></div>
+
+<script src="api.js"></script>
+
+<script>
+    let allBooks = [];
+let sortOrder = ""; // "", "az", "za"
+
+document.addEventListener("DOMContentLoaded", loadBooks);
+
+async function loadBooks() {
+  const container = document.getElementById("booksContainer");
+  container.innerHTML = "<p>Loading books...</p>";
+
+  try {
+    const schoolId = 1;
+    allBooks = await getBooks(schoolId);
+
+    container.innerHTML = "";
+
+    if (!allBooks || allBooks.length === 0) {
+      container.innerHTML = "<p>No books available</p>";
+      return;
+    }
+
+    populateFilters(allBooks);   // ✅ dynamic dropdown
+    renderBooks(allBooks);       // ✅ initial render
+
+  } catch (err) {
+    container.innerHTML = "<p>Error loading books</p>";
+    console.error(err);
+  }
+}
+function renderBooks(books) {
+  const container = document.getElementById("booksContainer");
+  container.innerHTML = "";
+
+  books.forEach(book => {
+    const card = document.createElement("div");
+    card.classList.add("book-card");
+
+    card.innerHTML = `
+      <div class="book-image">
+        <img src="${book.cover_Url}" alt="${book.title}">
+      </div>
+
+      <div class="book-content">
+        <h3>${book.title}</h3>
+        <p class="author">by ${book.author || "Unknown"}</p>
+        <p class="meta">${book.subject} • Class ${book.class}</p>
+
+        <div class="btn-group">
+          <button class="view-btn" onclick="viewPDF('${book.pdf_Url}')">
+            <i class="fas fa-eye"></i> View
+          </button>
+
+          <button class="download-btn" onclick="downloadPDF('${book.pdf_Url}')">
+            <i class="fas fa-download"></i> Download
+          </button>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+document.getElementById("sortBtn").addEventListener("click", () => {
+  if (sortOrder === "") {
+    sortOrder = "az";
+  } else if (sortOrder === "az") {
+    sortOrder = "za";
+  } else {
+    sortOrder = ""; // ✅ back to normal
+  }
+
+  updateSortIcon();
+  applyFilters();
+});
+function updateSortIcon() {
+  const icon = document.getElementById("sortIcon");
+
+  if (sortOrder === "az") {
+    icon.textContent = "🔼"; // A → Z
+  } else if (sortOrder === "za") {
+    icon.textContent = "🔽"; // Z → A
+  } else {
+    icon.textContent = "⬍"; // Default (no sort)
+  }
+}
+function populateFilters(books) {
+  const classSet = new Set();
+  const subjectSet = new Set();
+
+  books.forEach(b => {
+    if (b.class) classSet.add(b.class);
+    if (b.subject) subjectSet.add(b.subject);
+  });
+
+  const classFilter = document.getElementById("classFilter");
+  const subjectFilter = document.getElementById("subjectFilter");
+
+  // reset
+  classFilter.innerHTML = `<option value="">All Classes</option>`;
+  subjectFilter.innerHTML = `<option value="">All Subjects</option>`;
+
+  classSet.forEach(c => {
+    classFilter.innerHTML += `<option value="${c}">Class ${c}</option>`;
+  });
+
+  subjectSet.forEach(s => {
+    subjectFilter.innerHTML += `<option value="${s}">${s}</option>`;
+  });
+}
+function applyFilters() {
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const cls = document.getElementById("classFilter").value;
+  const sub = document.getElementById("subjectFilter").value;
+
+  const filtered = allBooks.filter(b =>
+    (!cls || b.class == cls) &&
+    (!sub || b.subject == sub) &&
+    (
+      (b.title || "").toLowerCase().includes(search) ||
+      (b.author || "").toLowerCase().includes(search)
+    )
+  );
+  // 🔽 SORTING
+  if (sortOrder === "az") {
+    filtered.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+  } else if (sortOrder === "za") {
+    filtered.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
+  }
+  // "" → no sorting (original order)
+
+  renderBooks(filtered);
+}
+document.getElementById("searchInput").addEventListener("input", applyFilters);
+document.getElementById("classFilter").addEventListener("change", applyFilters);
+document.getElementById("subjectFilter").addEventListener("change", applyFilters);
+
+/* VIEW PDF */
+function viewPDF(url) {
+  const viewerUrl = `https://docs.google.com/gview?url=${url}&embedded=true`;
+  document.getElementById("pdfFrame").src = viewerUrl;
+  document.getElementById("pdfModal").style.display = "flex";
+}
+
+/* CLOSE MODAL */
+function closePDF() {
+  document.getElementById("pdfModal").style.display = "none";
+  document.getElementById("pdfFrame").src = "";
+}
+
+/* DOWNLOAD PDF */
+function downloadPDF(url) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "book.pdf";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+const modal = document.getElementById("pdfModal");
+
+/* CLICK outside */
+modal.addEventListener("click", function (e) {
+  if (e.target === modal) {
+    closePDF();
+  }
+});
+
+/* TOUCH support (important for mobile) */
+modal.addEventListener("touchstart", function (e) {
+  if (e.target === modal) {
+    closePDF();
+  }
+});
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

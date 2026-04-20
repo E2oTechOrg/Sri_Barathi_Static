@@ -1,69 +1,514 @@
-body {
-    font-family: system-ui, sans-serif;
-    margin: 0;
-    background: #f4f6f9;
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+    }
+
+    .books-section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    #sortBtn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #0b3c5d;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
 }
 
-header,
-footer {
-    background: #0b3c5d;
-    color: white;
+#sortBtn:hover {
+  background: #072c44;
+}
+
+    /* GRID */
+    .books-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+    /* CARD */
+.book-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden; /* IMPORTANT */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: 0.3s;
+  height: 100%;
+}
+
+/* IMAGE WRAPPER */
+.book-image {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+/* IMAGE FULL COVER */
+.book-image img {
+  display: block;          
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       
+}
+
+    .book-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .book-content {
+      padding: 18px;
+      text-align: left;
+    }
+
+    .book-content h3 {
+      font-size: 18px;
+      color: #0b3c5d;
+      margin-bottom: 5px;
+    }
+
+    .author {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    /* BUTTONS */
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .view-btn,
+    .download-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      text-align: center;
+    }
+
+    .view-btn {
+      background: #0b3c5d;
+      color: white;
+    }
+
+    .view-btn:hover {
+      background: #145da0;
+    }
+
+    .download-btn {
+      background: #e6f0fa;
+      color: #0b3c5d;
+    }
+
+    .download-btn:hover {
+      background: #cfe3f7;
+    }
+
+   /* PDF MODAL BACKGROUND */
+.pdf-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+
+  justify-content: center;
+  align-items: center;
+}
+
+/* PDF FRAME (LIKE IMAGE) */
+#pdfFrame {
+  width: 90%;
+  height: 95%;
+  border-radius: 12px;
+  border: none;
+  pointer-events: auto;
+}
+/* CLOSE BUTTON */
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+}
+/* TOP BAR */
+.top-bar {
+  max-width: 1200px;
+  margin: 0 auto 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  padding: 15px 20px;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* TITLE LEFT */
+.top-bar h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0b3c5d;
+  margin: 0;
+}
+/* FILTER BAR */
+.filters {
+  margin-left: auto; /* keeps it on right */
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* SEARCH BOX */
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  padding: 10px 14px 10px 40px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  min-width: 230px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #0b3c5d;
+  box-shadow: 0 0 10px rgba(11,60,93,0.25);
+}
+
+/* SEARCH ICON */
+.search-box i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+/* SELECT WRAPPER */
+.select-box {
+  position: relative;
+}
+
+/* DROPDOWN */
+.filters select {
+  appearance: none;
+  padding: 10px 38px 10px 14px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  min-width: 180px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* CUSTOM ARROW */
+.select-box::after {
+  content: "\f078";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666;
+  font-size: 12px;
+}
+
+/* HOVER EFFECT */
+.filters select:hover {
+  border-color: #0b3c5d;
+  transform: translateY(-1px);
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: #0b3c5d;
+  box-shadow: 0 0 8px rgba(11,60,93,0.2);
+}
+.search-box i {
+  pointer-events: none;
+  transition: none; /* prevents flicker */
+  z-index: 1;
+}
+/* ================= GLOBAL SMOOTH ================= */
+/* APPLY ONLY TO ELEMENTS THAT NEED IT */
+.search-box input,
+.filters select,
+.book-card,
+.view-btn,#sortBtn,
+.download-btn {
+  transition: all 0.3s ease;
+}
+
+/* ================= TOP BAR ANIMATION ================= */
+.top-bar {
+  opacity: 0;
+  transform: translateY(-30px);
+  animation: topBarEnter 0.6s ease forwards;
+}
+
+@keyframes topBarEnter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= FILTER STAGGER ================= */
+.filters > * {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.filters > *:nth-child(1) { animation-delay: 0.2s; }
+.filters > *:nth-child(2) { animation-delay: 0.35s; }
+.filters > *:nth-child(3) { animation-delay: 0.5s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= SEARCH + DROPDOWN ================= */
+.search-box input:hover,
+.filters select:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.search-box input:focus,
+.filters select:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 3px rgba(11,60,93,0.2);
+}
+
+/* ARROW ROTATION */
+.select-box::after {
+  transition: transform 0.3s ease;
+}
+
+.select-box:focus-within::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* ================= BOOK CARD ENTRY ================= */
+.book-card {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: cardFade 0.6s ease forwards;
+}
+
+/* STAGGER EFFECT */
+.book-card:nth-child(1) { animation-delay: 0.1s; }
+.book-card:nth-child(2) { animation-delay: 0.2s; }
+.book-card:nth-child(3) { animation-delay: 0.3s; }
+.book-card:nth-child(4) { animation-delay: 0.4s; }
+.book-card:nth-child(5) { animation-delay: 0.5s; }
+.book-card:nth-child(6) { animation-delay: 0.6s; }
+.book-card:nth-child(7) { animation-delay: 0.7s; }
+.book-card:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes cardFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= CARD HOVER ================= */
+.book-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* ================= BUTTON ANIMATION ================= */
+.view-btn,
+.download-btn {
+  transition: all 0.25s ease;
+}
+
+.view-btn:hover,
+.download-btn:hover {
+  transform: scale(1.05);
+}
+
+.view-btn:active,
+.download-btn:active {
+  transform: scale(0.95);
+}
+
+/* ================= MODAL ANIMATION ================= */
+.pdf-modal {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#pdfFrame {
+  animation: zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 992px) {
+
+  .books-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .top-bar h2 {
     text-align: center;
-    padding: 15px 0;
-}
+    font-size: 24px;
+  }
 
-h1 {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.galeri-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.galeri-item {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.galeri-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
-}
-
-.galeri-item img {
-    width: 100%;
-    display: block;
-}
-
-.galeri-item p {
-    margin: 10px;
-    text-align: center;
-    font-weight: 600;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+  .filters {
+    margin-left: 0;
     justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .search-box input {
+    min-width: 180px;
+  }
+
+  .filters select {
+    min-width: 150px;
+  }
 }
 
-.modal img {
-    max-width: 70%;
-    max-height: 70%;
-    border-radius: 10px;
-    border: 3px solid #fff;
+/* Mobile */
+@media (max-width: 600px) {
+
+  .books-section {
+    padding: 40px 15px;
+  }
+
+  .books-container {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  /* TOP BAR STACK */
+  .top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  /* TITLE */
+  .top-bar h2 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  /* FILTER FULL WIDTH */
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  /* INPUT FULL WIDTH */
+  .search-box input {
+    width: 100%;
+    min-width: unset;
+    font-size: 14px;
+  }
+
+  /* SELECT FULL WIDTH */
+  .filters select {
+    width: 100%;
+    min-width: unset;
+  }
+
+  /* CARD IMPROVE */
+  .book-card {
+    border-radius: 12px;
+  }
+
+  .book-content {
+    padding: 14px;
+  }
+
+  .book-content h3 {
+    font-size: 16px;
+  }
+
+  .author {
+    font-size: 13px;
+  }
+
+  .meta {
+    font-size: 12px;
+  }
+
+  /* BUTTON STACK */
+  .btn-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .view-btn,
+  .download-btn {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px;
+  }
 }
+ 

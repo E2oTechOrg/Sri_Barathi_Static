@@ -1,8 +1,6 @@
   <!-- ANNOUNCEMENT BAR -->
-<div class="announcement-bar">
-   <marquee behavior="scroll" direction="left">
-    <p>📢 Admissions Open for 2026–2027 | 📘 New Magazine Released</p>
-  </marquee>
+<div class="announcement-bar" id="announcementBar">
+  <marquee id="announcementText">Loading...</marquee>
 </div>
   <!-- Header -->
   <header id="mainHeader">
@@ -29,13 +27,14 @@
       </div>
 
       <div class="nav-dropdown">
-        <a href="profile.html" class="nav-drop-link">
+        <a href="#" class="nav-drop-link">
           We Provide <i class="fas fa-chevron-down"></i>
         </a>
       
         <div class="nav-dropdown-content">
           <a href="Ourprogram.html">Our programs</a>
           <a href="Effectivecuriculam.html">Effective Curriculam</a>
+          <a href="Library.html">Library</a>
           <a href="Assessment.html">Assessment</a>
           <a href="Facilities.html">Facilities</a>
           <a href="Labs.html">Labs & Clubs</a>
@@ -45,7 +44,7 @@
       
 
        <div class="nav-dropdown">
-        <a href="profile.html" class="nav-drop-link">
+        <a href="#" class="nav-drop-link">
           Our Campus <i class="fas fa-chevron-down"></i>
         </a>
       
@@ -59,17 +58,17 @@
       <a href="gallery.html">Gallery</a>
 
       <div class="nav-dropdown">
-        <a href="#" class="nav-drop-link">
+        <a href="Event.html" class="nav-drop-link">
           Events <i class="fas fa-chevron-down"></i>
         </a>
       
-        <div class="nav-dropdown-content">
-          <a href="Event.html">Recent Events</a>
-          
+        <div class="nav-dropdown-content" id="navbarEvents">
+          <!-- JS will insert event names here -->
         </div>
       </div>
+
       <div class="nav-dropdown">
-        <a href="profile.html" class="nav-drop-link">
+        <a href="#" class="nav-drop-link">
           Admission <i class="fas fa-chevron-down"></i>
         </a>
       
@@ -127,6 +126,7 @@
     <div class="sidebar-dropdown-content">
       <a href="Ourprogram.html"><i class="fas fa-book-open"></i> Our Programs</a>
       <a href="Effectivecuriculam.html"><i class="fas fa-chalkboard-teacher"></i> Effective Curriculum</a>
+      <a href="Library.html"><i class="fas fa-book"></i> Library</a>
       <a href="Assessment.html"><i class="fas fa-file-alt"></i> Assessment</a>
       <a href="Facilities.html"><i class="fas fa-school"></i> Facilities</a>
       <a href="Labs.html"><i class="fas fa-flask"></i> Labs & Clubs</a>
@@ -157,15 +157,16 @@
   <!-- EVENTS -->
   <div class="sidebar-dropdown">
     <div class="sidebar-drop-link">
-      <a href="#">
+      <a href="Event.html">
         <i class="fas fa-calendar-alt"></i> Events
       </a>
       <i class="fas fa-chevron-down arrow" onclick="toggleDropdown(this)"></i>
     </div>
 
-    <div class="sidebar-dropdown-content">
-      <a href="Event.html"><i class="fas fa-calendar-check"></i> Recent Events</a>
+    <div class="sidebar-dropdown-content" id="sidebarEvents">
+      
     </div>
+   
   </div>
 
   <!-- ADMISSION -->

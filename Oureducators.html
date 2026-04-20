@@ -137,17 +137,44 @@
   width:100%;
   height:100%;
 }
+.toast-msg {
+  position: fixed;
+  top: 40px;
+  right: 30px;
+  background: #333;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast-msg.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-msg.success {
+  background: #5ec977;
+}
+
+.toast-msg.error {
+  background: #dc3545;
+}
 
 @media(max-width:991px){
   .join-content-box{
     margin-bottom:25px;
   }
+  .page-header{
+    margin-top: 16px;
+  }
 }
   </style>
 <body>
-<!-- ANNOUNCEMENT BAR -->
-<div id="announce-container"></div>
-
 <!-- HEADER -->
 <div id="header-container"></div>
 
@@ -337,36 +364,37 @@
       <!-- RIGHT FORM -->
       <div class="col-lg-6 d-flex" data-aos="fade-left">
         <div class="join-form-card w-100">
-          <form>
+
+          <form id="jobForm" method="POST">
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label class="form-label">Name</label>
-                <input type="text" class="form-control" placeholder="Enter your name" required>
+                <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
               </div>
 
               <div class="col-md-6 mb-3">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Enter your email" required>
+                <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
               </div>
 
               <div class="col-md-6 mb-3">
                 <label class="form-label">Phone</label>
-                <input type="tel" class="form-control" placeholder="Enter phone number" required>
+                <input type="tel" id="phone" class="form-control" placeholder="Enter phone number" required>
               </div>
 
               <div class="col-md-6 mb-3">
                 <label class="form-label">LinkedIn URL</label>
-                <input type="url" class="form-control" placeholder="LinkedIn profile">
+                <input type="url" id="linkedin" class="form-control" placeholder="LinkedIn profile">
               </div>
 
               <div class="col-12 mb-3">
                 <label class="form-label">Message</label>
-                <textarea class="form-control" rows="4" placeholder="Write your message here..."></textarea>
+                <textarea class="form-control" id="message" rows="4" placeholder="Write your message here..."></textarea>
               </div>
 
               <div class="col-12 mb-3">
                 <label class="form-label">Resume</label>
-                <input type="file" class="form-control" accept=".pdf,.doc,.docx">
+                <input type="file" id="resume" class="form-control" accept=".pdf,.doc,.docx">
               </div>
 
               <div class="col-12">
@@ -374,6 +402,7 @@
                   Submit Application
                 </button>
               </div>
+              
             </div>
           </form>
         </div>
@@ -382,11 +411,62 @@
     </div>
   </div>
 </section>
-
+<div id="toast" class="toast-msg"></div>
 <!-- FOOTER -->
 <div id="footer-container"></div>
 
 <!-- SCRIPTS -->
+ <script src="api.js"></script>
+ <script>
+  function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.className = `toast-msg show ${type}`;
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+  const form = document.getElementById("jobForm");
+const successMsg = document.getElementById("successMsg");
+
+const scriptURL = "https://script.google.com/macros/s/AKfycby8nu0upyTvI2q1NxmHPtsIavBOfde-_8yr-aPvBJ6sr1TqNEq5AKTvj8zImxI2nJ5HNQ/exec";
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData();
+
+  formData.append("name", document.getElementById("name").value);
+  formData.append("email", document.getElementById("email").value);
+  formData.append("phone", document.getElementById("phone").value);
+  formData.append("linkedin", document.getElementById("linkedin").value);
+  formData.append("message", document.getElementById("message").value);
+
+  const resumeFile = document.getElementById("resume").files[0];
+  if (resumeFile) {
+    formData.append("resume", resumeFile.name);
+  }
+
+  try {
+  await fetch(scriptURL, {
+    method: "POST",
+    body: formData
+  });
+
+  console.log(Object.fromEntries(formData));
+
+  showToast("Application submitted successfully!", "success");
+  form.reset();
+
+} catch (error) {
+  console.error("Error:", error);
+  showToast("Submission failed!", "error");
+}
+});
+ </script>
 <script src="gtk.js"></script>
 <script src="script.js"></script>
 
