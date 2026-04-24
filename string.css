@@ -73,10 +73,11 @@ button {
   background: #dc3545;
 }
 
+/* Modal Container */
 .image-modal{
   display:none;
   position:fixed;
-  z-index:9999;
+  z-index:999999;              /* 🔥 very high to stay on top */
   left:0;
   top:0;
   width:100%;
@@ -86,15 +87,23 @@ button {
   align-items:center;
 }
 
+/* Image */
 .modal-content{
   max-width:90%;
   max-height:90%;
   border-radius:12px;
- object-fit: contain;
- display: block;
- 
+  object-fit:contain;
+  display:block;
+  position:relative;
+  pointer-events: none; 
+  z-index:1;                  /* below buttons */
 }
-
+.nav-btn,
+.close-modal,
+.image-counter{
+  pointer-events: auto;   /* ✅ ensures buttons are clickable */
+}
+/* Close button */
 .close-modal{
   position:absolute;
   top:20px;
@@ -102,6 +111,50 @@ button {
   font-size:40px;
   color:#fff;
   cursor:pointer;
+  z-index:1000000;            /* 🔥 above everything */
+}
+
+/* Navigation buttons */
+.nav-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:50px;
+  color:#fff;
+  cursor:pointer;
+  padding:15px;
+  user-select:none;
+  transition:0.3s;
+  z-index:1000000;            /* 🔥 above image */
+}
+
+/* Hover effect */
+.nav-btn:hover{
+  color:#f0c040;
+  transform:translateY(-50%) scale(1.2);
+}
+
+/* Left / Right positioning */
+.prev{
+  left:30px;
+}
+
+.next{
+  right:30px;
+}
+
+/* Counter */
+.image-counter{
+  position:absolute;
+  bottom:25px;
+  left:50%;                   /* 🔥 center properly */
+  transform:translateX(-50%);
+  color:#fff;
+  font-size:16px;
+  background:rgba(0,0,0,0.6);
+  padding:6px 14px;
+  border-radius:20px;
+  z-index:1000000;
 }
 
 .announcement-bar{

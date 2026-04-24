@@ -118,6 +118,38 @@ header{
   color:#fff;
   cursor:pointer;
 }
+/* Nav buttons */
+.nav-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:40px;
+  color:#fff;
+  cursor:pointer;
+  padding:10px;
+  z-index:10000;
+}
+
+.prev{ left:20px; }
+.next{ right:20px; }
+
+.nav-btn:hover{
+  color:#f0c040;
+}
+
+/* Counter */
+.image-counter{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#fff;
+  background:rgba(0,0,0,0.6);
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:14px;
+  z-index:10000;
+}
 
 .gallery-item img{
   cursor:pointer;
@@ -149,7 +181,14 @@ footer{
 </div>
 <div id="imageModal" class="image-modal">
   <span class="close-modal">&times;</span>
+
+  <span id="prevBtn" class="nav-btn prev">&#10094;</span>
+
   <img id="modalImg" class="modal-content">
+
+  <span id="nextBtn" class="nav-btn next">&#10095;</span>
+
+  <div id="imageCounter" class="image-counter">1 / 1</div>
 </div>
 
 <!-- FOOTER -->
@@ -170,18 +209,72 @@ const galleryImages = [
   {url: "aset/ida.jpg", title: ""},
   {url: "aset/primary-1.jpg", title: ""},
   {url: "aset/gal2.jpg", title: ""},
-  
 ];
 
 const gallery = document.getElementById("gallery");
 const modal = document.getElementById("imageModal");
 const modalImg = document.getElementById("modalImg");
+const closeModal = document.querySelector(".close-modal");
+const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
+const counter = document.getElementById("imageCounter");
 
 let currentIndex = 0;
+let modalIndex = 0;
 const batchSize = 10;
 
-// create Load More button
-// create Load More button
+// Get all current images
+function getAllImages() {
+  return document.querySelectorAll(".gallery-item img");
+}
+
+// Update counter
+function updateCounter() {
+  const images = getAllImages();
+  counter.textContent = `${modalIndex + 1} / ${images.length}`;
+}
+
+// Open modal
+function openModal(index) {
+  const images = getAllImages();
+  modal.style.display = "flex";
+  modalImg.src = images[index].src;
+  modalIndex = index;
+  updateCounter();
+}
+
+// Load images
+function loadImages() {
+  const nextBatch = galleryImages.slice(currentIndex, currentIndex + batchSize);
+
+  nextBatch.forEach((img) => {
+    const div = document.createElement("div");
+    div.className = "gallery-item";
+
+    div.innerHTML = `
+      <img src="${img.url}" alt="" loading="lazy">
+      <span>${img.title}</span>
+    `;
+
+    const image = div.querySelector("img");
+
+    image.addEventListener("click", () => {
+      const allImages = getAllImages();
+      const index = Array.from(allImages).indexOf(image);
+      openModal(index);
+    });
+
+    gallery.appendChild(div);
+  });
+
+  currentIndex += batchSize;
+
+  if (currentIndex >= galleryImages.length) {
+    loadMoreBtn.style.display = "none";
+  }
+}
+
+// Load More Button
 const loadMoreBtn = document.createElement("button");
 loadMoreBtn.innerText = "Load More...";
 loadMoreBtn.style.cssText = `
@@ -195,57 +288,45 @@ loadMoreBtn.style.cssText = `
   cursor:pointer;
 `;
 
-// ✅ insert BEFORE footer
 const footer = document.getElementById("footer-container");
 footer.parentNode.insertBefore(loadMoreBtn, footer);
 
-// function to load images
-function loadImages() {
-  const nextBatch = galleryImages.slice(currentIndex, currentIndex + batchSize);
-
-  nextBatch.forEach(img => {
-    const div = document.createElement("div");
-    div.className = "gallery-item";
-
-    div.innerHTML = `
-      <img src="${img.url}" alt="" loading="lazy">
-      <span>${img.title}</span>
-    `;
-
-    const image = div.querySelector("img");
-
-    image.addEventListener("click", () => {
-      modal.style.display = "flex";
-      modalImg.src = img.url;
-    });
-
-    gallery.appendChild(div);
-  });
-
-  currentIndex += batchSize;
-
-  // hide button if all images loaded
-  if (currentIndex >= galleryImages.length) {
-    loadMoreBtn.style.display = "none";
-  }
-}
-
-// initial load (first 10)
 loadImages();
-
-// button click load next 10
 loadMoreBtn.addEventListener("click", loadImages);
 
-// modal close
-document.querySelector(".close-modal").onclick = () => {
-  modal.style.display = "none";
+// Prev
+nextBtn.onclick = (e) => {
+  e.stopPropagation();
+  const images = getAllImages();
+  modalIndex = (modalIndex + 1) % images.length;
+  modalImg.src = images[modalIndex].src;
+  updateCounter();
 };
 
-modal.onclick = (e) => {
-  if (e.target === modal) {
-    modal.style.display = "none";
-  }
+// Next
+prevBtn.onclick = (e) => {
+  e.stopPropagation();
+  const images = getAllImages();
+  modalIndex = (modalIndex - 1 + images.length) % images.length;
+  modalImg.src = images[modalIndex].src;
+  updateCounter();
 };
+
+// Close
+closeModal.onclick = () => modal.style.display = "none";
+
+modal.onclick = (e) => {
+  if (e.target === modal) modal.style.display = "none";
+};
+
+// Keyboard support
+document.addEventListener("keydown", (e) => {
+  if (modal.style.display === "flex") {
+    if (e.key === "ArrowRight") nextBtn.click();
+    if (e.key === "ArrowLeft") prevBtn.click();
+    if (e.key === "Escape") modal.style.display = "none";
+  }
+});
 </script>
 </body>
 </html>

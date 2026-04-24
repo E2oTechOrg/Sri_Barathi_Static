@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://localhost:7103/api";
+const API_BASE_URL = "https://app-bharathi-school-fgc7eag8ahb0a8dm.canadacentral-01.azurewebsites.net/api";
 
 // Announcement 
 async function getAnnouncements(schoolId) {

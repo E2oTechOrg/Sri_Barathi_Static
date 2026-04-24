@@ -672,5 +672,7 @@ window.addEventListener("load", () => {
   }, 300);
 });
 
-
+window.nextSlide = nextSlide;
+window.prevSlide = prevSlide;
+window.goToSlide = goToSlide;
 
