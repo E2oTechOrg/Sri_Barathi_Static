@@ -300,74 +300,69 @@
 </section>
 
 
-<!-- imagemodal -->
+<!-- ================= IMAGE MODAL ================= -->
 <div id="imageModal" class="image-modal">
-  <span class="close-modal">&times;</span>
-  <span id="prevBtn" class="nav-btn prev">&#10094;</span>
-  <img id="modalImg" class="modal-content">
-  <span id="nextBtn" class="nav-btn next">&#10095;</span>
+  <span class="close-modal" id="closeImageModal">&times;</span>
+
+  <span id="modalPrevBtn" class="nav-btn prev">&#10094;</span>
+
+  <img id="modalImg" class="modal-img">
+
+  <span id="modalNextBtn" class="nav-btn next">&#10095;</span>
+
   <div id="imageCounter" class="image-counter">1 / 1</div>
 </div>
 
-<!-- enquiry -->
-<div id="enquiryModal" class="modal">
-  <div class="modal-content split">
+
+<!-- ================= ENQUIRY MODAL ================= -->
+<div id="enquiryModal" class="modalenquiry">
+  <div class="modal-content split"> <!-- ✅ FIXED -->
 
     <span class="close-btn-modal" onclick="closeEnquiryModal()">✖</span>
 
-    <!-- LEFT SIDE -->
+    <!-- LEFT -->
     <div class="modal-left">
-  <div class="flip-card">
+      <div class="flip-card">
+        <div class="flip-inner">
 
-    <div class="flip-inner">
+          <div class="flip-front">
+            <h2>Join Our School</h2>
+            <p>We provide quality education and values.</p>
+            <ul>
+              <li>✔ Experienced Teachers</li>
+              <li>✔ Smart Classrooms</li>
+              <li>✔ Safe Campus</li>
+            </ul>
+          </div>
 
-      <!-- FRONT -->
-      <div class="flip-front">
-        <h2>Join Our School</h2>
-        <p>We provide quality education and values.</p>
+          <div class="flip-back">
+            <h2>Why Choose Us?</h2> <p> We focus on overall student development,
+               modern teaching methods, and strong academic excellence. </p> 
+               <p>📞 Contact us today for admissions!</p>
+          </div>
 
-        <ul>
-          <li>✔ Experienced Teachers</li>
-          <li>✔ Smart Classrooms</li>
-          <li>✔ Safe Campus</li>
-        </ul>
+        </div>
       </div>
-
-      <!-- BACK -->
-      <div class="flip-back">
-        <h2>Why Choose Us?</h2>
-        <p>
-          We focus on overall student development, modern teaching methods,
-          and strong academic excellence.
-        </p>
-
-        <p>📞 Contact us today for admissions!</p>
-      </div>
-
     </div>
 
-  </div>
-</div>
-
-    <!-- RIGHT SIDE -->
+    <!-- RIGHT -->
     <div class="modal-right">
       <h2>Enquiry Form</h2>
 
       <form id="enquiryForm">
-  <input type="text" id="studentName" placeholder="Student Name" required>
-  <input type="text" id="parentName" placeholder="Parent Name" required>
-  <input type="text" id="className" placeholder="Class" required>
-  <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
-
-  <textarea id="reason" placeholder="Why do you want to join this school?" required></textarea>
-
-  <button type="submit">Submit</button>
-</form>
+        <input type="text" id="studentName" placeholder="Student Name" required>
+        <input type="text" id="parentName" placeholder="Parent Name" required>
+        <input type="text" id="className" placeholder="Class" required>
+        <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
+        <textarea id="reason" placeholder="Reason" required></textarea>
+        <button type="submit">Submit</button>
+      </form>
     </div>
 
   </div>
 </div>
 <div id="toast" class="toast"></div>
+
 <div id="footer-container"></div>
 
   <!-- SCRIPTS -->
@@ -417,43 +412,69 @@ async function loadLatestEvents() {
 }
 
 document.addEventListener("DOMContentLoaded", loadLatestEvents);
+//enquirymodal
+document.addEventListener("DOMContentLoaded", () => {
 
-// enquiry
-const enquiryForm = document.getElementById("enquiryForm");
-// Toast
-function showToast(message, type = "success") {
-  const toast = document.getElementById("toast");
+  const enquiryForm = document.getElementById("enquiryForm");
 
-  toast.textContent = message;
-  toast.className = `toast show ${type}`;
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3000);
-}
-
-// Submit
-enquiryForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const payload = {
-    studentName: document.getElementById("studentName").value,
-    parentName: document.getElementById("parentName").value,
-    class: document.getElementById("className").value,
-    phoneNumber: document.getElementById("phoneNumber").value,
-    reason: document.getElementById("reason").value,
-    schoolId: 1
-  };
-
-  const result = await submitEnquiry(payload);
-
-  if (result.ok) {
-    showToast("Enquiry submitted successfully!", "success");
-    enquiryForm.reset();
-  } else {
-    showToast("Failed to submit enquiry", "error");
-    console.error(result.error || result.data);
+  function openEnquiryModal(){
+    document.getElementById("enquiryModal").style.display = "flex";
   }
+
+  function closeEnquiryModal(){
+    document.getElementById("enquiryModal").style.display = "none";
+  }
+
+  window.openEnquiryModal = openEnquiryModal;
+  window.closeEnquiryModal = closeEnquiryModal;
+
+  // Flip card
+  const flipCard = document.querySelector(".flip-card");
+  if (flipCard) {
+    flipCard.addEventListener("click", () => {
+      flipCard.querySelector(".flip-inner").classList.toggle("flip-active");
+    });
+  }
+
+  // Outside click
+  window.addEventListener("click", function(e){
+    const modal = document.getElementById("enquiryModal");
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+  // Form submit
+  if (enquiryForm) {
+    enquiryForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        studentName: document.getElementById("studentName").value,
+        parentName: document.getElementById("parentName").value,
+        class: document.getElementById("className").value,
+        phoneNumber: document.getElementById("phoneNumber").value,
+        reason: document.getElementById("reason").value,
+        schoolId: 1
+      };
+
+      if (!/^\d{10}$/.test(payload.phoneNumber)) {
+        showToast("Enter valid phone number", "error");
+        return;
+      }
+
+      const result = await submitEnquiry(payload);
+
+      if (result.ok) {
+        showToast("Enquiry submitted successfully!", "success");
+        enquiryForm.reset();
+        closeEnquiryModal();
+      } else {
+        showToast("Failed to submit enquiry", "error");
+      }
+    });
+  }
+
 });
 
   </script>
@@ -476,44 +497,55 @@ track.innerHTML += track.innerHTML;
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  const track = document.getElementById("carouselTrack");
+
+  // ✅ Duplicate for infinite scroll (after DOM ready)
+  track.innerHTML += track.innerHTML;
+
   const modal = document.getElementById("imageModal");
   const modalImg = document.getElementById("modalImg");
   const closeModal = document.querySelector(".close-modal");
-  const nextBtn = document.getElementById("nextBtn");
-  const prevBtn = document.getElementById("prevBtn");
+
+  // ✅ FIXED IDs (important)
+  const nextBtn = document.getElementById("modalNextBtn");
+  const prevBtn = document.getElementById("modalPrevBtn");
+
   const counter = document.getElementById("imageCounter");
 
   let currentIndex = 0;
 
-  // ✅ ALWAYS GET UPDATED IMAGES (fix)
+  // Get all images
   function getImages() {
     return document.querySelectorAll("#carouselTrack img");
   }
 
-  // Counter update
+  // Update counter
   function updateCounter() {
     const images = getImages();
     counter.textContent = `${currentIndex + 1} / ${images.length}`;
   }
 
-  // Open modal
-  getImages().forEach((img, index) => {
-    img.addEventListener("click", () => {
+  // ✅ EVENT DELEGATION (works for duplicated images)
+  track.addEventListener("click", (e) => {
+    if (e.target.tagName === "IMG") {
+      const images = Array.from(getImages());
+      currentIndex = images.indexOf(e.target);
+
       modal.style.display = "flex";
-      modalImg.src = img.src;
-      currentIndex = index;
+      modalImg.src = e.target.src;
+
       updateCounter();
-    });
+    }
   });
 
-  // Close modal on background click
+  // Close modal (background click)
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
       modal.style.display = "none";
     }
   });
 
-  // ✅ NEXT BUTTON (fixed)
+  // NEXT
   nextBtn.onclick = (e) => {
     e.stopPropagation();
 
@@ -525,7 +557,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCounter();
   };
 
-  // ✅ PREV BUTTON (fixed)
+  // PREV
   prevBtn.onclick = (e) => {
     e.stopPropagation();
 
