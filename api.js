@@ -103,3 +103,32 @@ async function getBooks(schoolId) {
     return [];
   }
 }
+
+// Blogs
+async function getBlogs(schoolId, page = 1, pageSize = 4) {
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/CreateBlog/by-school/${schoolId}?page=${page}&pageSize=${pageSize}`
+    );
+
+    if (!res.ok) throw new Error("Failed to fetch blogs");
+
+    return await res.json();
+  } catch (error) {
+    console.error("API Error:", error);
+    return { data: [] };
+  }
+}
+// Get Single Blog
+// async function getBlogById(blogId) {
+//   try {
+//     const res = await fetch(`${API_BASE_URL}/CreateBlog/${blogId}`);
+
+//     if (!res.ok) throw new Error("Failed to fetch blog");
+
+//     return await res.json();
+//   } catch (error) {
+//     console.error("API Error:", error);
+//     return null;
+//   }
+// }

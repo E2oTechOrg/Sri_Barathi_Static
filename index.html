@@ -265,8 +265,27 @@
   </div>
 </section> 
 
+<-- BLOG LIST -->
+<section id="blogSection" class="blog-section">
+  <h2 class="section-title">Latest Posts</h2>
+  <p class="section-subtitle">Explore recent Education articles</p>
 
-<-- ENROLLMENT (kept but refined) -->
+  <div class="blog-wrapper">
+
+    <!-- LEFT -->
+    <button class="blog-btn prev-btn" onclick="prevPage()">❮</button>
+
+    <!-- BLOG GRID -->
+    <div id="blogContainer" class="blog-grid"></div>
+
+    <!-- RIGHT -->
+    <button class="blog-btn next-btn" onclick="nextPage()">❯</button>
+
+  </div>
+
+</section>  
+
+ <!-- ENROLLMENT (kept but refined)  -->
 <section class="spmb enrollment-section" data-aos="fade-up">
   <h2>Enroll Your Child Today</h2>
   <p class="enrollment-subtitle">
@@ -412,6 +431,61 @@ async function loadLatestEvents() {
 }
 
 document.addEventListener("DOMContentLoaded", loadLatestEvents);
+
+//blog
+let currentPage = 1;
+const schoolId = 1;
+let pageSize = 4;
+
+async function loadBlogs(page = 1) {
+  const result = await getBlogs(schoolId, page, pageSize);
+  const container = document.getElementById("blogContainer");
+
+  container.innerHTML = "";
+
+  result.data.forEach(blog => {
+    const card = document.createElement("div");
+    card.className = "blog-card";
+
+    card.innerHTML = `
+      <img src="${blog.blogImage}" alt="blog">
+      <h3>${blog.blogTitle}</h3>
+      <a href="blogdetail.html?id=${blog.blogId}">Read More →</a>
+    `;
+
+    container.appendChild(card);
+  });
+}
+function nextPage() {
+  currentPage++;
+  loadBlogs(currentPage);
+}
+
+function prevPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    loadBlogs(currentPage);
+  }
+}
+document.addEventListener("DOMContentLoaded", () => {
+  loadBlogs();
+});
+
+window.addEventListener("load", () => {
+  if (window.location.hash) {
+    const target = document.querySelector(window.location.hash);
+
+    if (target) {
+      setTimeout(() => {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 700);
+    }
+  }
+});
+
 //enquirymodal
 document.addEventListener("DOMContentLoaded", () => {
 
