@@ -58,19 +58,20 @@
 <div id="header-container"></div>
 
 <!-- Event -->
-<section class="recent-events">
+<section class="recent-events" data-aos="fade-up">
   <h2>Recent Events</h2>
   <div class="event-list" id="eventList"></div>
 </section>
 
 <!-- FOOTER -->
 <div id="footer-container"></div>
+
 <script src="api.js"></script>
 <script>
 const eventList = document.getElementById("eventList");
 
 async function loadEvents() {
-  const result = await getEvents(); // 👈 from api.js
+  const result = await getEvents(); 
 
   if (result.success) {
     const events = result.data;
@@ -109,5 +110,13 @@ function formatDate(dateString) {
 loadEvents();
 </script>
 <script src="script.js"></script> 
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script> 
+
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  </script>
 </body>
 </html>

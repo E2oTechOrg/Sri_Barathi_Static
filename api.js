@@ -119,16 +119,27 @@ async function getBlogs(schoolId, page = 1, pageSize = 4) {
     return { data: [] };
   }
 }
-// Get Single Blog
-// async function getBlogById(blogId) {
-//   try {
-//     const res = await fetch(`${API_BASE_URL}/CreateBlog/${blogId}`);
 
-//     if (!res.ok) throw new Error("Failed to fetch blog");
+const API_BASE = "https://localhost:7103/api";
+//  gallery images
+async function getGalleryImages(schoolId) {
+  try {
+    const response = await fetch(`${API_BASE}/Gallery/schools/${schoolId}/images`);
 
-//     return await res.json();
-//   } catch (error) {
-//     console.error("API Error:", error);
-//     return null;
-//   }
-// }
+    if (!response.ok) {
+      throw new Error("Failed to fetch images");
+    }
+
+    const result = await response.json();
+
+    if (result.success && result.data) {
+      return result.data;
+    } else {
+      return [];
+    }
+
+  } catch (error) {
+    console.error("API Error:", error);
+    return [];
+  }
+}

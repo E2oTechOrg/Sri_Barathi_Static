@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="string.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-
 <style>
 *{box-sizing:border-box;margin:0;font-family:system-ui,sans-serif}
 body{
@@ -41,7 +40,7 @@ header{
 
 
 .gallery-container{
-  column-count: 3; /* number of columns */
+  column-count: 5; /* number of columns */
   column-gap: 15px;
   padding:20px;
 }
@@ -196,21 +195,6 @@ footer{
 <script src="api.js"></script>
 <script src="script.js"></script> 
 <script>
-const galleryImages = [
-  {url: "aset/fotber1.jpeg", title: ""},
-  {url: "aset/fotber2.jpeg", title: ""},
-  {url: "aset/fotber3.jpeg", title: ""},
-  {url: "aset/fotber4.jpeg", title: ""},
-  {url: "aset/logo.png", title: ""},
-  {url: "aset/secondary.jpg", title: ""},
-  {url: "aset/ida.jpg", title: ""},
-  {url: "aset/primary-1.jpg", title: ""},
-  {url: "aset/gal2.jpg", title: ""},
-  {url: "aset/ida.jpg", title: ""},
-  {url: "aset/primary-1.jpg", title: ""},
-  {url: "aset/gal2.jpg", title: ""},
-];
-
 const gallery = document.getElementById("gallery");
 const modal = document.getElementById("imageModal");
 const modalImg = document.getElementById("modalImg");
@@ -219,22 +203,29 @@ const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
 const counter = document.getElementById("imageCounter");
 
+let galleryImages = [];
 let currentIndex = 0;
 let modalIndex = 0;
 const batchSize = 10;
 
-// Get all current images
+// Convert API data
+function mapImages(data) {
+  return data.map(img => ({
+    url: img.image_Url,
+    title: img.image_Caption || ""
+  }));
+}
+
+// Get all DOM images
 function getAllImages() {
   return document.querySelectorAll(".gallery-item img");
 }
 
-// Update counter
 function updateCounter() {
   const images = getAllImages();
   counter.textContent = `${modalIndex + 1} / ${images.length}`;
 }
 
-// Open modal
 function openModal(index) {
   const images = getAllImages();
   modal.style.display = "flex";
@@ -243,7 +234,7 @@ function openModal(index) {
   updateCounter();
 }
 
-// Load images
+//  Load images (lazy batch)
 function loadImages() {
   const nextBatch = galleryImages.slice(currentIndex, currentIndex + batchSize);
 
@@ -252,8 +243,7 @@ function loadImages() {
     div.className = "gallery-item";
 
     div.innerHTML = `
-      <img src="${img.url}" alt="" loading="lazy">
-      <span>${img.title}</span>
+      <img src="${img.url}" loading="lazy">
     `;
 
     const image = div.querySelector("img");
@@ -274,7 +264,19 @@ function loadImages() {
   }
 }
 
-// Load More Button
+// Fetch + Initialize
+async function initGallery() {
+  gallery.innerHTML = "<p style='text-align:center'>Loading...</p>";
+
+  const data = await getGalleryImages(1);
+
+  gallery.innerHTML = "";
+
+  galleryImages = mapImages(data);
+
+  loadImages();
+}
+
 const loadMoreBtn = document.createElement("button");
 loadMoreBtn.innerText = "Load More...";
 loadMoreBtn.style.cssText = `
@@ -291,10 +293,8 @@ loadMoreBtn.style.cssText = `
 const footer = document.getElementById("footer-container");
 footer.parentNode.insertBefore(loadMoreBtn, footer);
 
-loadImages();
 loadMoreBtn.addEventListener("click", loadImages);
 
-// Prev
 nextBtn.onclick = (e) => {
   e.stopPropagation();
   const images = getAllImages();
@@ -303,7 +303,6 @@ nextBtn.onclick = (e) => {
   updateCounter();
 };
 
-// Next
 prevBtn.onclick = (e) => {
   e.stopPropagation();
   const images = getAllImages();
@@ -312,14 +311,12 @@ prevBtn.onclick = (e) => {
   updateCounter();
 };
 
-// Close
 closeModal.onclick = () => modal.style.display = "none";
 
 modal.onclick = (e) => {
   if (e.target === modal) modal.style.display = "none";
 };
 
-// Keyboard support
 document.addEventListener("keydown", (e) => {
   if (modal.style.display === "flex") {
     if (e.key === "ArrowRight") nextBtn.click();
@@ -327,6 +324,9 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") modal.style.display = "none";
   }
 });
+
+initGallery();
+
 </script>
 </body>
 </html>
