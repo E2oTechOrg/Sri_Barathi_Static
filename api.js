@@ -120,11 +120,11 @@ async function getBlogs(schoolId, page = 1, pageSize = 4) {
   }
 }
 
-const API_BASE = "https://localhost:7103/api";
+// const API_BASE = "https://localhost:7103/api";
 //  gallery images
 async function getGalleryImages(schoolId) {
   try {
-    const response = await fetch(`${API_BASE}/Gallery/schools/${schoolId}/images`);
+    const response = await fetch(`${API_BASE_URL}/Gallery/schools/${schoolId}/images`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch images");
