@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free School Magazine | Sri Bharathi Vidyalaya</title>
+
+  <link rel="icon" type="image/png" href="aset/logo.png">
+  <link rel="stylesheet" href="string.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    body {
+  margin: 0;
+  font-family: system-ui;
+  background: #f4f6f9;
+}
+.burger {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .burger {
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 26px;
+    color: #fff;
+    z-index: 1006;
+    cursor: pointer;
+  }
+}
+    .container {
+      max-width: 1100px;
+      margin: 70px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+
+    .magazine-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .magazine-content h1 {
+      color: #0b3c5d;
+    }
+
+    .desc {
+      line-height: 1.7;
+      color: #444;
+    }
+
+    ul {
+      padding-left: 18px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .highlight {
+      margin: 20px 0;
+      padding: 15px;
+      background: #eef6fb;
+      border-left: 5px solid #1e6fa3;
+      border-radius: 10px;
+      font-weight: 600;
+      color: #1e6fa3;
+    }
+
+    .form-card {
+      background: #f9fafc;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px #e5e7eb;
+    }
+
+    .form-group {
+      margin-top: 15px;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #0b3c5d, #1e6fa3);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .note {
+      text-align: center;
+      font-size: 13px;
+      color: #777;
+      margin-top: 10px;
+    }
+    select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+    .toast-msg {
+  position: fixed;
+  top: 40px;
+  right: 30px;
+  background: #333;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.career-content h1{
+  color:#0d6efd;
+  margin-bottom:20px;
+}
+
+.career-content ul{
+  margin-top:15px;
+  margin-left:20px;
+}
+
+.career-content li{
+  margin-bottom:10px;
+}
+
+.highlight{
+  background:#eef6ff;
+  border-left:4px solid #0d6efd;
+  padding:15px;
+  margin:20px 0;
+  border-radius:8px;
+}
+
+.form-card{
+  background:#fff;
+  padding:30px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+.form-group textarea{
+  min-height:100px;
+}
+
+.btn{
+  width:100%;
+  background:#0d6efd;
+  color:#fff;
+  border:none;
+  padding:14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:600;
+}
+
+.btn:hover{
+  background:#084298;
+}
+
+
+
+.toast-msg.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-msg.success {
+  background: #53b66a;
+}
+
+.toast-msg.error {
+  background: #dc3545;
+}
+
+    @media (max-width: 768px) {
+      .magazine-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!-- HEADER -->
+<div id="header-container"></div>
+
+
+<!-- MAIN -->
+<div class="container">
+
+  <div class="magazine-layout">
+
+
+<div class="career-content" data-aos="fade-right" data-aos-duration="1000">
+
+  <h1>🎓 Student Admission Enquiry</h1>
+
+  <div class="desc">
+
+    <b>Give Your Child the Best Learning Experience!</b>
+
+    <br><br>
+
+    Looking for a school that focuses on academic excellence,
+    character building, and overall development?
+
+    <br><br>
+
+    👉 Why Choose Our School?
+
+    <ul>
+      <li data-aos="fade-up" data-aos-delay="100">
+        Experienced & Caring Teachers
+      </li>
+
+      <li data-aos="fade-up" data-aos-delay="200">
+        Smart Classrooms & Digital Learning
+      </li>
+
+      <li data-aos="fade-up" data-aos-delay="300">
+        Safe & Secure Campus
+      </li>
+
+      <li data-aos="fade-up" data-aos-delay="400">
+        Sports & Extracurricular Activities
+      </li>
+
+      <li data-aos="fade-up" data-aos-delay="500">
+        Individual Student Attention
+      </li>
+    </ul>
+
+    <p>
+      We are committed to providing quality education,
+      modern learning methods, and a nurturing environment
+      where every child can thrive.
+    </p>
+
+    <div class="highlight" data-aos="zoom-in" data-aos-delay="200">
+      📚 Admissions Open for Academic Year 2026-2027<br>
+      🏫 Modern Learning Environment<br>
+      🚌 Transport Facility Available<br>
+      🎯 Limited Seats Available
+    </div>
+
+    👉 Fill out the enquiry form and our admission team will contact you shortly.
+
+  </div>
+
+</div>
+
+
+
+
+<div class="form-card" data-aos="fade-left" data-aos-duration="1000">
+
+  <form id="enquiryForm">
+
+    <div class="form-group" data-aos="fade-up">
+      <label>Student Name <span style="color:red;">*</span></label>
+      <input
+        type="text"
+        id="studentName"
+        placeholder="Enter Student Name"
+        required>
+    </div>
+
+    <div class="form-group" data-aos="fade-up" data-aos-delay="100">
+      <label>Parent Name <span style="color:red;">*</span></label>
+      <input
+        type="text"
+        id="parentName"
+        placeholder="Enter Parent Name"
+        required>
+    </div>
+
+    <div class="form-group" data-aos="fade-up" data-aos-delay="200">
+      <label>Class Applying For <span style="color:red;">*</span></label>
+
+      <select id="className" required>
+        <option value="">Select Class</option>
+        <option>Pre-KG</option>
+        <option>LKG</option>
+        <option>UKG</option>
+        <option>Grade 1</option>
+        <option>Grade 2</option>
+        <option>Grade 3</option>
+        <option>Grade 4</option>
+        <option>Grade 5</option>
+        <option>Grade 6</option>
+        <option>Grade 7</option>
+        <option>Grade 8</option>
+        <option>Grade 9</option>
+        <option>Grade 10</option>
+        <option>Grade 11</option>
+        <option>Grade 12</option>
+      </select>
+    </div>
+
+    <div class="form-group" data-aos="fade-up" data-aos-delay="300">
+      <label>Mobile Number <span style="color:red;">*</span></label>
+      <input
+        type="tel"
+        id="phoneNumber"
+        placeholder="Enter Mobile Number"
+        required>
+    </div>
+
+    <div class="form-group" data-aos="fade-up" data-aos-delay="400">
+      <label>Address / Enquiry Details <span style="color:red;">*</span></label>
+
+      <textarea
+        id="reason"
+        placeholder="Enter Address or Admission Enquiry Details"
+        required></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="btn"
+      data-aos="zoom-in">
+
+      🎓 Submit Admission Enquiry
+
+    </button>
+
+  </form>
+
+</div>
+
+
+
+  </div>
+</div>
+<div id="toast" class="toast-msg"></div>
+<!-- FOOTER -->
+<div id="footer-container"></div>
+<script src="api.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+  AOS.init({
+    once: true,
+    duration: 1000
+  });
+
+  function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.className = `toast-msg show ${type}`;
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+  const form = document.getElementById("magazineForm");
+  const successMsg = document.getElementById("successMsg");
+
+  const scriptURL = "https://script.google.com/macros/s/AKfycbx7dhQuYMKDBdVtl0bnMPOx9MyVaAqJ5Dx4ekqA0vFkoePKP9P5qpBuf9NbNeHaDOc0/exec";
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("studentName", document.getElementById("studentName").value);
+    formData.append("className", document.getElementById("className").value);
+    formData.append("schoolName", document.getElementById("schoolName").value);
+    formData.append("mobile", document.getElementById("mobile").value);
+    formData.append("email", document.getElementById("email").value);
+    formData.append("address", document.getElementById("address").value);
+
+    try {
+      await fetch(scriptURL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      });
+
+      console.log(Object.fromEntries(formData));
+
+      showToast("Magazine request submitted!", "success");
+      form.reset();
+
+    } catch (error) {
+      showToast("Something went wrong!", "error");
+      console.log(error);
+    }
+  });
+</script>
+
+<script>
+//enquirymodal
+document.addEventListener("DOMContentLoaded", () => {
+
+  const enquiryForm = document.getElementById("enquiryForm");
+
+  function openEnquiryModal(){
+    document.getElementById("enquiryModal").style.display = "flex";
+  }
+
+  function closeEnquiryModal(){
+    document.getElementById("enquiryModal").style.display = "none";
+  }
+
+  window.openEnquiryModal = openEnquiryModal;
+  window.closeEnquiryModal = closeEnquiryModal;
+
+  // Flip card
+  const flipCard = document.querySelector(".flip-card");
+  if (flipCard) {
+    flipCard.addEventListener("click", () => {
+      flipCard.querySelector(".flip-inner").classList.toggle("flip-active");
+    });
+  }
+
+  // Outside click
+  window.addEventListener("click", function(e){
+    const modal = document.getElementById("enquiryModal");
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+  // Form submit
+  if (enquiryForm) {
+    enquiryForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        studentName: document.getElementById("studentName").value,
+        parentName: document.getElementById("parentName").value,
+        class: document.getElementById("className").value,
+        phoneNumber: document.getElementById("phoneNumber").value,
+        reason: document.getElementById("reason").value,
+        schoolId: 1
+      };
+
+      if (!/^\d{10}$/.test(payload.phoneNumber)) {
+        showToast("Enter valid phone number", "error");
+        return;
+      }
+
+      const result = await submitEnquiry(payload);
+
+      if (result.ok) {
+        showToast("Enquiry submitted successfully!", "success");
+        enquiryForm.reset();
+        closeEnquiryModal();
+      } else {
+        showToast("Failed to submit enquiry", "error");
+      }
+    });
+  }
+
+});
+
+  </script>
+ <script src="script.js"></script> 
+</body>
+</html>

@@ -189,15 +189,39 @@
     <div class="contact-form">
       <h3>Send Message</h3>
 
-      <form>
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <input type="tel" placeholder="Your Phone">
+   <form id="contactForm">
 
-        <textarea rows="5" placeholder="Your Message" required></textarea>
+  <input
+    type="text"
+    id="name"
+    placeholder="Your Name"
+    required
+  >
 
-        <button type="submit">Send Message</button>
-      </form>
+  <input
+    type="email"
+    id="email"
+    placeholder="Your Email"
+    required
+  >
+
+  <input
+    type="tel"
+    id="mobile"
+    placeholder="Mobile Number"
+    required
+  >
+
+  <textarea
+    id="message"
+    rows="5"
+    placeholder="Your Message"
+    required
+  ></textarea>
+
+  <button type="submit">Send Message</button>
+
+</form>
     </div>
 
     <!-- RIGHT: MAP + DETAILS -->
@@ -248,6 +272,33 @@
 
  <!-- FOOTER -->
 <div id="footer-container"></div>
+
+<script>
+  document
+  .getElementById("contactForm")
+  .addEventListener("submit", async function (e) {
+
+    e.preventDefault();
+
+    const payload = {
+      schoolId: 1, // or localStorage.getItem("schoolId")
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      mobileNumber: document.getElementById("mobile").value,
+      message: document.getElementById("message").value
+    };
+
+    const result = await submitContact(payload);
+
+    if (result.ok) {
+      alert("Message sent successfully!");
+      document.getElementById("contactForm").reset();
+    } else {
+      alert("Failed to send message");
+      console.error(result);
+    }
+});
+</script>
 <script src="api.js"></script>
   <script src="script.js">
 

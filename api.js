@@ -73,7 +73,7 @@ async function getAboutUs(schoolId) {
 
 // POST Enquiry 
 function submitEnquiry(payload) {
-  return fetch("https://localhost:7103/api/Enquiry", {
+  return fetch("https://app-bharathi-school-fgc7eag8ahb0a8dm.canadacentral-01.azurewebsites.net/api/Enquiry", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -101,6 +101,85 @@ async function getBooks(schoolId) {
   } catch (error) {
     console.error("Error fetching books:", error);
     return [];
+  }
+}
+
+// Magazine Enquiry
+async function submitMagazineEnquiry(payload) {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/MagazineEnquiry`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      }
+    );
+
+    return {
+      ok: response.ok,
+      data: await response.text()
+    };
+  } catch (error) {
+    console.error("API Error:", error);
+
+    return {
+      ok: false,
+      error: error.message
+    };
+  }
+}
+
+// Teacher Enquiry
+async function submitTeacherEnquiry(formData) {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/TeacherEnquiry`,
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+
+    return {
+      ok: response.ok,
+      data: await response.text()
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error.message
+    };
+  }
+}
+
+// Contact Enquiry
+async function submitContact(payload) {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/Contact`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      }
+    );
+
+    return {
+      ok: response.ok,
+      data: await response.text()
+    };
+  } catch (error) {
+    console.error("API Error:", error);
+
+    return {
+      ok: false,
+      error: error.message
+    };
   }
 }
 
